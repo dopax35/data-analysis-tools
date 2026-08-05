@@ -1,14 +1,23 @@
-# Contributing to dopa-X Platform
+# Contributing to dopa-X Platform & Algorithm Repository
 
-Welcome to the **dopa-X** neurodegenerative digital biomarker community! We are an open-access research community developing automated digital biomarker algorithms for Parkinson's disease and movement disorders.
+Welcome to the **dopa-X** neurodegenerative digital biomarker community! We are an open-access research initiative developing automated digital biomarker algorithms for Parkinson's disease and movement disorders.
 
-## How to Contribute
+## Data Governance & Legal Compliance Policy
 
-1. **Find a Task**: Check open tasks on the [dopa-X Projects Board](https://dopa-x.vercel.app/projects) or [Monday.com Workspace].
-2. **Fork & Branch**: Create a feature branch named `feature/task-id-short-description` (e.g., `feature/task-101-gait-fft`).
-3. **Write Clean Code**: Include docstrings, unit tests, and follow Python / React clean code guidelines.
-4. **Submit a Pull Request**: Use our [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md) and reference your Monday task ID.
+To comply with human subjects research data governance, patient privacy regulations, and original repository license terms:
+- **Raw Clinical Datasets**: Never upload raw dataset files (`.edf`, `.mat`, `.csv` raw signals, patient clinical records) to this GitHub repository.
+- **Downloading Data**: Researchers download raw clinical datasets directly from official open-access providers ([PhysioNet](https://physionet.org), [PPMI](https://www.ppmi-info.org), Synapse, etc.).
+- **GitHub Repository Role**: This GitHub repository (`dopax35/data-analysis-tools`) is exclusively dedicated to sharing **algorithm source code**, feature extraction pipelines, data cleaning utilities, and UI visualizer components.
 
-## Code of Conduct
+## How to Develop & Submit Algorithms
 
-We are dedicated to providing a welcoming, inclusive, and collaborative environment for scientists, engineers, and clinical researchers of all skill levels.
+1. **Find a Task**: Check open tasks on the [dopa-X Projects Board](https://dopa-x.vercel.app/projects) or Monday.com Workspace.
+2. **Download Raw Data**: Follow the provided link to download raw clinical signals from the official provider (PhysioNet, PPMI, etc.).
+3. **Develop Algorithms Locally**: Write feature extraction or signal processing scripts in Python, MATLAB, or C++.
+4. **Submit Pull Request**: Fork this repository, commit your algorithm source code, and submit a PR referencing your Monday task ID (e.g., `#task-101`).
+
+## Code Guidelines
+
+- Add docstrings explaining mathematical / signal processing formulas used.
+- Include unit tests in `tests/` verifying signal transformation correctness.
+- Do not include raw patient data files in your commits.
