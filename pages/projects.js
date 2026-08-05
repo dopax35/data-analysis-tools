@@ -6,41 +6,25 @@ import { Activity, Filter, RefreshCw, CheckCircle2, ShieldCheck, Download, GitBr
 
 export default function Projects() {
   const [selectedSkill, setSelectedSkill] = useState('All');
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const tasks = [
-    { 
-      task_id: 'task_101', 
-      name: 'Implement Gait FFT Feature Pipeline', 
-      skills_required: ['Python', 'Signal Processing'], 
-      difficulty: 'Intermediate',
-      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
-      data_source_name: 'PhysioNet Gait in Parkinson\'s Database'
-    },
-    { 
-      task_id: 'task_102', 
-      name: 'Build PhysioNet Signal Spectrogram Visualizer Component', 
-      skills_required: ['React', 'Next.js'], 
-      difficulty: 'Beginner',
-      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
-      data_source_name: 'PhysioNet Gait Signals API'
-    },
-    { 
-      task_id: 'task_103', 
-      name: 'PPMI Clinical Metadata Schema Extractor', 
-      skills_required: ['Python', 'SQL', 'PostgreSQL'], 
-      difficulty: 'Advanced',
-      data_source_url: 'https://www.ppmi-info.org/access-data-specimens/download-data',
-      data_source_name: 'PPMI Data & Specimens Portal'
-    },
-    { 
-      task_id: 'task_104', 
-      name: 'Tremor Spectral Density Algorithm Validation', 
-      skills_required: ['Signal Processing', 'Python'], 
-      difficulty: 'Advanced',
-      data_source_url: 'https://physionet.org/content/gaitndd/1.0.0/',
-      data_source_name: 'PhysioNet Gait in Neurodegenerative Disease'
+  React.useEffect(() => {
+    async function loadTasks() {
+      try {
+        const res = await fetch('/api/tasks');
+        const data = await res.json();
+        if (data.tasks) {
+          setTasks(data.tasks);
+        }
+      } catch (err) {
+        console.error('Error fetching tasks:', err);
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+    loadTasks();
+  }, []);
 
   const skillsList = ['All', 'Python', 'Signal Processing', 'React', 'Next.js', 'SQL', 'PostgreSQL'];
 
