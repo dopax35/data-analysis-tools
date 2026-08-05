@@ -39,15 +39,13 @@ except ImportError:
             return tool_func(*args, **kwargs)
 
 
-# --- Define 9-Agent Configurations as specified in agents.md ---
+# --- Define 10-Agent Configurations as specified in agents.md ---
 
 AGENT_AUDITOR_CONFIG = LocalAgentConfig(
     name="agent-auditor",
     system_instructions=(
-        "You are the Executive Auditor. You review the output of the PM and operations agents. Before new datasets "
-        "go live, verify they meet privacy and relevance standards for neurodegenerative disease. Review Monday.com board "
-        "structures to ensure they align with the project's clinical goals, and audit the system health logs weekly. "
-        "You have override authority to flag issues to agent-pm."
+        "You are the Executive Auditor. Review the output of the PM and operations agents. Before new datasets "
+        "go live, verify they meet privacy, de-identification, and HIPAA/IRB compliance for Parkinson's, ALS, and Alzheimer's disease."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.audit_dataset_compliance, tools.review_board_structure, tools.flag_strategic_issue],
@@ -59,9 +57,8 @@ AGENT_AUDITOR_CONFIG = LocalAgentConfig(
 AGENT_CRAWLER_CONFIG = LocalAgentConfig(
     name="agent-crawler",
     system_instructions=(
-        "You are the Data Hunter. You run automatically once every 24 hours. Scrape Kaggle, Zenodo, OpenNeuro, GitHub, "
-        "and academic preprint servers for new open datasets related to Parkinson's, ALS, and Alzheimer's. When you find "
-        "a valid candidate, extract the raw URL and pass it immediately to agent-scout."
+        "You are the Data Hunter. Scrape Kaggle, Zenodo, OpenNeuro, GitHub, and academic preprint servers for new open "
+        "datasets related to Parkinson's, ALS, and Alzheimer's."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.execute_web_search, tools.scrape_page_content],
@@ -74,8 +71,7 @@ AGENT_SCOUT_CONFIG = LocalAgentConfig(
     name="agent-scout",
     system_instructions=(
         "You are the Data Integrator. Receive raw URLs from agent-crawler. Extract strict metadata (sensor types, "
-        "cohort size, demographics) and automatically push structural summaries to the Vercel PostgreSQL database. "
-        "Pass the processed dataset ID to agent-ops."
+        "cohort size, demographics) and automatically push structural summaries to the Vercel PostgreSQL database."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.extract_clinical_metadata, tools.push_to_vercel_db],
@@ -87,8 +83,8 @@ AGENT_SCOUT_CONFIG = LocalAgentConfig(
 AGENT_OPS_CONFIG = LocalAgentConfig(
     name="agent-ops",
     system_instructions=(
-        "You are the Operations Manager. On initial run, provision the dopa-X workspace via GraphQL. For ongoing work, "
-        "automatically create Epics and sub-tasks for newly approved datasets and tag them (e.g., wearable, gait)."
+        "You are the Operations Manager. On initial run, provision the dopa-X workspace via GraphQL. Create Epics and "
+        "sub-tasks for newly approved datasets and algorithm tasks."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.bootstrap_monday_workspace, tools.create_monday_epic, tools.create_monday_subtask],
@@ -101,8 +97,7 @@ AGENT_CODE_REVIEWER_CONFIG = LocalAgentConfig(
     name="agent-code-reviewer",
     system_instructions=(
         "You are the Senior Code Reviewer. Review all incoming GitHub Pull Requests. For community data science algorithms, "
-        "check Python hygiene, linting, and feature documentation. For agent-ux UI updates, check React component accessibility "
-        "and responsiveness. Post feedback and auto-merge if all conditions pass."
+        "check Python hygiene, linting, and feature documentation. For UI updates, check React component accessibility and responsiveness."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.bootstrap_github_repo, tools.get_github_pr_diff, tools.post_github_pr_comment_and_merge],
@@ -111,11 +106,11 @@ AGENT_CODE_REVIEWER_CONFIG = LocalAgentConfig(
     )
 )
 
-AGENT_UX_CONFIG = LocalAgentConfig(
-    name="agent-ux",
+AGENT_FRONTEND_CONFIG = LocalAgentConfig(
+    name="agent-frontend",
     system_instructions=(
-        "You are the UX/UI Lead. Generate and update React components for the Vercel-hosted portal when new datasets or "
-        "projects are integrated. Push code to feature branches and submit PRs for agent-code-reviewer to assess."
+        "You are the Frontend Developer. Generate and update React components, project discussion forums, registration forms, "
+        "and tutorial booking modals for the Vercel-hosted portal."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.generate_react_component, tools.submit_frontend_pr, tools.commit_frontend_update],
@@ -124,11 +119,24 @@ AGENT_UX_CONFIG = LocalAgentConfig(
     )
 )
 
-AGENT_MAINTENANCE_CONFIG = LocalAgentConfig(
-    name="agent-maintenance",
+AGENT_BACKEND_CONFIG = LocalAgentConfig(
+    name="agent-backend",
     system_instructions=(
-        "You are the Site Reliability Engineer. Provision the Vercel project and deploy updates to production automatically. "
-        "Track API rate limits and log all system events to the Google Sheets backend."
+        "You are the Backend Developer. Implement and maintain serverless API endpoints (/api/register, /api/tasks, "
+        "/api/discussions, /api/tutorials) and persistent database storage handlers."
+    ),
+    capabilities=CapabilitiesConfig(
+        tools=[tools.build_api_endpoint, tools.sync_database_schema],
+        allow_write=True,
+        require_confirmation=False
+    )
+)
+
+AGENT_DEVOPS_CONFIG = LocalAgentConfig(
+    name="agent-devops",
+    system_instructions=(
+        "You are the DevOps Lead & SRE. Provision the Vercel project and deploy updates to production automatically. "
+        "Track API rate limits and log system events to Google Sheets."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.deploy_to_vercel, tools.setup_vercel_project, tools.log_to_google_sheets],
@@ -140,8 +148,8 @@ AGENT_MAINTENANCE_CONFIG = LocalAgentConfig(
 AGENT_GUIDE_CONFIG = LocalAgentConfig(
     name="agent-guide",
     system_instructions=(
-        "You are the Community Guide. Match user skills with unassigned tasks in Monday.com and provide exact dataset links, "
-        "PR templates, and board assignments."
+        "You are the Community Guide. Match user skills with unassigned tasks in Monday.com and provide dataset links, "
+        "PR templates, and tutorial session schedules."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.query_unassigned_monday_tasks, tools.register_volunteer_contributor, tools.generate_referral_link, tools.search_project_documentation],
@@ -157,9 +165,8 @@ AGENT_PM_CONFIG = LocalAgentConfig(
     name="agent-pm",
     api_key=api_key,
     system_instructions=(
-        "You are the Lead Project Manager. Oversee the active workflows. Automatically trigger environment setups on "
-        "Vercel, Monday.com, and GitHub. Route ongoing tasks to specialized sub-agents based on new dataset discoveries "
-        "or community inputs."
+        "You are the Lead Project Manager. Oversee active workflows across frontend, backend, devops, audit, ops, and community guides. "
+        "Automatically trigger environment setups on Vercel, Monday.com, and GitHub. Route ongoing tasks to sub-agents."
     ),
     capabilities=CapabilitiesConfig(
         tools=[tools.delegate_task, tools.get_active_epics, tools.get_project_health_summary],
@@ -172,8 +179,9 @@ AGENT_PM_CONFIG = LocalAgentConfig(
         "agent-scout": AGENT_SCOUT_CONFIG,
         "agent-ops": AGENT_OPS_CONFIG,
         "agent-code-reviewer": AGENT_CODE_REVIEWER_CONFIG,
-        "agent-ux": AGENT_UX_CONFIG,
-        "agent-maintenance": AGENT_MAINTENANCE_CONFIG,
+        "agent-frontend": AGENT_FRONTEND_CONFIG,
+        "agent-backend": AGENT_BACKEND_CONFIG,
+        "agent-devops": AGENT_DEVOPS_CONFIG,
         "agent-guide": AGENT_GUIDE_CONFIG,
     }
 )
@@ -182,10 +190,10 @@ AGENT_PM_CONFIG = LocalAgentConfig(
 async def run_bootstrap_sequence():
     """
     Autonomous Execution Mode: Executes bootstrapping functions automatically upon startup.
-    Calls bootstrap_github_repo, bootstrap_monday_workspace, and setup_vercel_project.
+    Calls bootstrap_github_repo, bootstrap_monday_workspace, setup_vercel_project, and build_api_endpoint.
     """
     print("\n=======================================================")
-    print("  dopa-X PLATFORM - INITIAL AUTONOMOUS BOOTSTRAP")
+    print("  dopa-X PLATFORM - 10-AGENT AUTONOMOUS BOOTSTRAP")
     print("=======================================================\n")
     
     # 1. Initialize GitHub Repository via agent-code-reviewer
@@ -198,18 +206,25 @@ async def run_bootstrap_sequence():
     monday_result = tools.bootstrap_monday_workspace()
     print(f"    Result: {monday_result}\n")
 
-    # 3. Setup & Provision Vercel Project via agent-maintenance
-    print("--> Step 3: Setting up Vercel Hosting Environment (agent-maintenance)")
+    # 3. Build & Verify Serverless API Routes via agent-backend
+    print("--> Step 3: Building & Verifying Serverless API Endpoints (agent-backend)")
+    backend_res1 = tools.build_api_endpoint("/api/register", ["GET", "POST"])
+    backend_res2 = tools.build_api_endpoint("/api/discussions", ["GET", "POST"])
+    backend_res3 = tools.build_api_endpoint("/api/tutorials", ["GET", "POST"])
+    print(f"    Result: Verified API routes: {backend_res1.get('route')}, {backend_res2.get('route')}, {backend_res3.get('route')}\n")
+
+    # 4. Setup & Provision Vercel Project via agent-devops
+    print("--> Step 4: Setting up Vercel Hosting Environment (agent-devops)")
     vercel_setup_result = tools.setup_vercel_project("dopa-x-portal")
     print(f"    Result: {vercel_setup_result}\n")
 
-    # 4. Trigger Initial Production Deployment via agent-maintenance
-    print("--> Step 4: Triggering Initial Production Deployment (agent-maintenance)")
+    # 5. Trigger Production Deployment via agent-devops
+    print("--> Step 5: Triggering Production Deployment (agent-devops)")
     vercel_deploy_result = tools.deploy_to_vercel(vercel_setup_result.get("project_id"))
     print(f"    Result: {vercel_deploy_result}\n")
 
     # Log bootstrap status to Google Sheets backend
-    tools.log_to_google_sheets("BOOTSTRAP_COMPLETE", "Initial 9-agent platform self-provisioning completed successfully.")
+    tools.log_to_google_sheets("BOOTSTRAP_COMPLETE", "Initial 10-agent platform self-provisioning completed successfully.")
 
     print("=======================================================")
     print("  BOOTSTRAP SEQUENCE COMPLETE - PLATFORM IS LIVE!")
@@ -218,10 +233,10 @@ async def run_bootstrap_sequence():
 
 async def run_automated_trigger_loop(iterations: int = 1):
     """
-    Automated 9-Agent Orchestration Loop: Executes recurring operational workflows across all sub-agents
-    under agent-pm and agent-auditor supervision.
+    Automated 10-Agent Orchestration Loop: Executes recurring operational workflows across all sub-agents
+    under agent-pm, agent-frontend, agent-backend, agent-devops, and agent-auditor supervision.
     """
-    print("--> Starting 9-Agent Autonomous Orchestration Loop...")
+    print("--> Starting 10-Agent Autonomous Orchestration Loop...")
     
     async def _execute_loop():
         for i in range(1, iterations + 1):
@@ -252,17 +267,25 @@ async def run_automated_trigger_loop(iterations: int = 1):
                 epic = tools.create_monday_epic(f"Integrate {meta.get('title')}", "Oculomotor & gait time series integration")
                 tools.create_monday_subtask(epic.get("epic_id"), "Feature extraction & validation pipeline")
 
-            # 6. UX Generates Component & Submits PR
-            comp = tools.generate_react_component("EyeTrackingSpectrogram", "Eye-tracking gaze velocity visualizer")
-            pr_res = tools.submit_frontend_pr("feature/eyetracking-viz", comp["component_name"])
-            print(f"[agent-ux] Submitted PR #{pr_res.get('pr_number')} for {comp['component_name']}")
+            # 6. Backend Verifies Persistent Database Schema
+            db_sync = tools.sync_database_schema("discussions_db", {"taskId": "string", "author": "string", "content": "string"})
+            print(f"[agent-backend] Database Schema Sync: {db_sync.get('status')} for '{db_sync.get('table')}'")
 
-            # 7. Code Reviewer Reviews & Merges PR
+            # 7. Frontend Generates React Component & Submits PR
+            comp = tools.generate_react_component("DataSourcesGrid", "All clinical data sources grid")
+            pr_res = tools.submit_frontend_pr("feature/data-sources-grid", comp["component_name"])
+            print(f"[agent-frontend] Submitted PR #{pr_res.get('pr_number')} for {comp['component_name']}")
+
+            # 8. Code Reviewer Reviews & Merges PR
             diff = tools.get_github_pr_diff(pr_res.get("pr_number"))
             print(f"[agent-code-reviewer] PR #{pr_res.get('pr_number')} Review: Lint={diff.get('lint_passed')}, A11y={diff.get('accessibility_passed')}")
             tools.post_github_pr_comment_and_merge(pr_res.get("pr_number"), "Automated code hygiene & accessibility checks passed.", approve=True)
 
-            # 8. Guide Matches Volunteer Skills
+            # 9. DevOps Triggers Production Deployment Check
+            deploy_res = tools.deploy_to_vercel()
+            print(f"[agent-devops] Production Deployment Verified: {deploy_res.get('deployment_url')}")
+
+            # 10. Guide Matches Volunteer Skills
             unassigned = tools.query_unassigned_monday_tasks()
             print(f"[agent-guide] Unassigned tasks ready for volunteer matching: {len(unassigned.get('unassigned_tasks', []))}")
 
@@ -270,7 +293,7 @@ async def run_automated_trigger_loop(iterations: int = 1):
         async with Agent(AGENT_PM_CONFIG) as pm_agent:
             await _execute_loop()
     except Exception as e:
-        print(f"\n[AGENT-PM] Agent SDK session notice ({e}). Running autonomous 9-agent orchestration directly...")
+        print(f"\n[AGENT-PM] Agent SDK session notice ({e}). Running autonomous 10-agent orchestration directly...")
         await _execute_loop()
 
 
