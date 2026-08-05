@@ -6,7 +6,43 @@ import { Activity, Filter, RefreshCw, CheckCircle2, ShieldCheck, Download, GitBr
 
 export default function Projects() {
   const [selectedSkill, setSelectedSkill] = useState('All');
-  const [tasks, setTasks] = useState([]);
+  
+  const fallbackTasks = [
+    { 
+      task_id: 'task_201', 
+      name: 'Eye-Tracking Biomarker & Gaze Dynamics Pipeline', 
+      skills_required: ['Python', 'Signal Processing', 'Oculomotor'], 
+      difficulty: 'Intermediate',
+      data_source_url: '/data/eyetracking-sample.csv',
+      data_source_name: 'dopa-X Eye-Tracking Dataset (Gaze Speed, Jitter & Blinking Rate)'
+    },
+    { 
+      task_id: 'task_202', 
+      name: 'dopa-X Mobile App Sensor Biomarkers', 
+      skills_required: ['Python', 'Signal Processing', 'Kinematics'], 
+      difficulty: 'Intermediate',
+      data_source_url: '/data/mobile-sensors-sample.json',
+      data_source_name: 'dopa-X Mobile App Accelerometer & Gyroscope Streams'
+    },
+    { 
+      task_id: 'task_203', 
+      name: 'Keystroke Dynamics Cognitive & Motor Extraction', 
+      skills_required: ['Python', 'Machine Learning', 'Cognitive Sciences'], 
+      difficulty: 'Advanced',
+      data_source_url: '/data/keystroke-dynamics-sample.json',
+      data_source_name: 'Android & iOS Keyboard Timing Logs (Dwell & Flight Time)'
+    },
+    { 
+      task_id: 'task_101', 
+      name: 'Implement Gait FFT Feature Pipeline', 
+      skills_required: ['Python', 'Signal Processing'], 
+      difficulty: 'Intermediate',
+      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
+      data_source_name: 'PhysioNet Gait in Parkinson\'s Database'
+    }
+  ];
+
+  const [tasks, setTasks] = useState(fallbackTasks);
   const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
