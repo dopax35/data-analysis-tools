@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Activity, LayoutGrid, UserPlus, Share2, GitBranch } from 'lucide-react';
+import { Activity, LayoutGrid, UserPlus, Share2, Video } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
@@ -9,6 +9,7 @@ export default function Navbar() {
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutGrid },
     { name: 'Projects & Tasks', path: '/projects', icon: Activity },
+    { name: 'Data Tutorials & Q&A', path: '/tutorials', icon: Video },
     { name: 'Volunteer Register', path: '/register', icon: UserPlus },
     { name: 'Referral Hub', path: '/referral', icon: Share2 },
   ];
