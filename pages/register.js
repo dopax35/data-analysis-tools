@@ -28,16 +28,26 @@ export default function Register() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const handleClean = formData.github.replace('@', '').trim();
-    const mockRef = `dopax-ref-${handleClean.toLowerCase()}-9921`;
-    setRegisteredUser({
-      name: formData.name,
-      github: handleClean,
-      refCode: mockRef,
-      refUrl: `https://dopa-x.vercel.app/register?ref=${mockRef}`
-    });
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (res.ok && data.user) {
+        setRegisteredUser({
+          name: data.user.name,
+          github: data.user.github,
+          refCode: data.user.refCode,
+          refUrl: `https://dopa-x.vercel.app/register?ref=${data.user.refCode}`
+        });
+      }
+    } catch (err) {
+      console.error('Registration API error:', err);
+    }
   };
 
   const copyRefLink = () => {
