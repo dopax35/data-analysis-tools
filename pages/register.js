@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Navbar from '../components/Navbar';
-import { UserPlus, CheckCircle, Share2, Copy, Github, Mail, User, Sparkles } from 'lucide-react';
+import { UserPlus, CheckCircle, Share2, Copy, Github, Mail, User, Sparkles, ShieldCheck, FileText } from 'lucide-react';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ export default function Register() {
     email: '',
     github: '',
     skills: ['Python', 'Signal Processing'],
-    refCode: ''
+    agreedToTerms: false
   });
 
   const [registeredUser, setRegisteredUser] = useState(null);
@@ -30,6 +31,10 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.agreedToTerms) {
+      alert("Please read and accept the Data Privacy & Research Participant Consent Agreement before registering.");
+      return;
+    }
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
@@ -38,11 +43,17 @@ export default function Register() {
       });
       const data = await res.json();
       if (res.ok && data.user) {
+        // Save session authentication in localStorage for portal access gate
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('dopax_user', JSON.stringify(data.user));
+        }
+
+        const portalRefUrl = `https://www.dopa-x.org/portal/register?ref=${data.user.refCode}`;
         setRegisteredUser({
           name: data.user.name,
           github: data.user.github,
           refCode: data.user.refCode,
-          refUrl: `https://data-analysis-tools-of1s.vercel.app/register?ref=${data.user.refCode}`
+          refUrl: portalRefUrl
         });
       }
     } catch (err) {
@@ -61,20 +72,20 @@ export default function Register() {
   return (
     <>
       <Head>
-        <title>Volunteer Registration | dopa-X Community</title>
+        <title>User Registration & Consent | dopa-X Portal</title>
       </Head>
       <Navbar />
 
       <main style={{ padding: '40px 24px', maxWidth: '800px', margin: '0 auto' }}>
         <header style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div className="badge badge-cyan" style={{ marginBottom: '12px' }}>
-            <Sparkles size={14} /> Join 250+ Research Volunteers
+            <Sparkles size={14} /> Step 1: User Registration & Portal Gate
           </div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px' }}>
             Volunteer <span className="gradient-text">Registration</span>
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>
-            Register your technical skills to get matched with Monday.com biomarker tasks & invite fellow researchers.
+            Registration and consent agreement are required to access the dopa-X research portal at <code>https://www.dopa-x.org/portal</code>.
           </p>
         </header>
 
@@ -153,16 +164,42 @@ export default function Register() {
               </div>
             </div>
 
-            <button type="submit" className="btn-primary" style={{ marginTop: '12px', justifyContent: 'center', padding: '14px' }}>
-              <UserPlus size={18} /> Complete Registration & Generate Referral Link
+            {/* TBD Data Privacy & Consent Agreement Checkbox */}
+            <div style={{ background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', padding: '16px', borderRadius: '10px' }}>
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', fontSize: '0.88rem', color: 'white', lineHeight: 1.5 }}>
+                <input 
+                  type="checkbox" 
+                  required
+                  checked={formData.agreedToTerms}
+                  onChange={(e) => setFormData({ ...formData, agreedToTerms: e.target.checked })}
+                  style={{ marginTop: '3px', width: '18px', height: '18px', accentColor: 'var(--accent-cyan)' }}
+                />
+                <div>
+                  I have read and agree to the <strong>TBD Data Privacy Policy & Research Participant Consent Agreement</strong>. I understand that raw data is hosted on official portals and contributed algorithms are open-source.
+                  <div style={{ marginTop: '6px' }}>
+                    <Link href="/legal" target="_blank" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <FileText size={12} /> Read Full Legal Terms & Privacy Policy
+                    </Link>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <button 
+              type="submit" 
+              className="btn-primary" 
+              disabled={!formData.agreedToTerms}
+              style={{ marginTop: '8px', justifyContent: 'center', padding: '14px', opacity: formData.agreedToTerms ? 1 : 0.5, cursor: formData.agreedToTerms ? 'pointer' : 'not-allowed' }}
+            >
+              <UserPlus size={18} /> Agree to Terms & Complete Portal Registration
             </button>
           </form>
         ) : (
           <div className="glass-panel" style={{ padding: '40px', textAlign: 'center' }}>
             <CheckCircle size={56} style={{ color: 'var(--accent-emerald)', marginBottom: '16px' }} />
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Welcome, {registeredUser.name}!</h2>
+            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Registration Complete, {registeredUser.name}!</h2>
             <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-              Your profile is registered with <code>agent-guide</code>. You are ready to claim Monday.com tasks!
+              You have accepted the consent terms and registered with <code>https://www.dopa-x.org/portal</code>.
             </p>
 
             <div style={{ background: 'rgba(0,0,0,0.4)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-card)', marginBottom: '24px' }}>
@@ -174,7 +211,7 @@ export default function Register() {
                   type="text" 
                   readOnly 
                   value={registeredUser.refUrl}
-                  style={{ flex: 1, padding: '10px 14px', background: 'transparent', border: 'none', color: 'var(--accent-cyan)', fontFamily: 'monospace', fontSize: '0.9rem' }}
+                  style={{ flex: 1, padding: '10px 14px', background: 'transparent', border: 'none', color: 'var(--accent-cyan)', fontFamily: 'monospace', fontSize: '0.85rem' }}
                 />
                 <button onClick={copyRefLink} className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
                   <Copy size={14} /> {copied ? 'Copied!' : 'Copy'}
@@ -182,8 +219,8 @@ export default function Register() {
               </div>
             </div>
 
-            <a href="/projects" className="btn-primary" style={{ textDecoration: 'none' }}>
-              View Open Monday Projects & Claim Tasks
+            <a href="/projects" className="btn-primary" style={{ textDecoration: 'none', padding: '12px 24px' }}>
+              Enter dopa-X Research Portal & View Projects
             </a>
           </div>
         )}
