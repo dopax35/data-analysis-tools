@@ -36,8 +36,8 @@ export default async function handler(req, res) {
           name: item.name,
           skills_required: ['Python', 'Signal Processing'],
           difficulty: 'Intermediate',
-          data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
-          data_source_name: 'PhysioNet Gait DB'
+          data_source_url: '/data/eyetracking-sample.csv',
+          data_source_name: 'dopa-X Portal Clinical Data'
         }));
         return res.status(200).json({ tasks: mondayTasks, source: 'monday_api' });
       }
@@ -46,8 +46,32 @@ export default async function handler(req, res) {
     }
   }
 
-  // Structured Fallback Tasks
+  // Primary Clinical Projects Tasks
   const fallbackTasks = [
+    { 
+      task_id: 'task_201', 
+      name: 'Eye-Tracking Biomarker & Gaze Dynamics Pipeline', 
+      skills_required: ['Python', 'Signal Processing', 'Oculomotor'], 
+      difficulty: 'Intermediate',
+      data_source_url: '/data/eyetracking-sample.csv',
+      data_source_name: 'dopa-X Eye-Tracking Dataset (Gaze Speed, Jitter & Blinking Rate)'
+    },
+    { 
+      task_id: 'task_202', 
+      name: 'dopa-X Mobile App Sensor Biomarkers', 
+      skills_required: ['Python', 'Signal Processing', 'Kinematics'], 
+      difficulty: 'Intermediate',
+      data_source_url: '/data/mobile-sensors-sample.json',
+      data_source_name: 'dopa-X Mobile App Accelerometer & Gyroscope Streams'
+    },
+    { 
+      task_id: 'task_203', 
+      name: 'Keystroke Dynamics Cognitive & Motor Extraction', 
+      skills_required: ['Python', 'Machine Learning', 'Cognitive Sciences'], 
+      difficulty: 'Advanced',
+      data_source_url: '/data/keystroke-dynamics-sample.json',
+      data_source_name: 'Android & iOS Keyboard Timing Logs (Dwell & Flight Time)'
+    },
     { 
       task_id: 'task_101', 
       name: 'Implement Gait FFT Feature Pipeline', 
@@ -55,30 +79,6 @@ export default async function handler(req, res) {
       difficulty: 'Intermediate',
       data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
       data_source_name: 'PhysioNet Gait in Parkinson\'s Database'
-    },
-    { 
-      task_id: 'task_102', 
-      name: 'Build PhysioNet Signal Spectrogram Visualizer Component', 
-      skills_required: ['React', 'Next.js'], 
-      difficulty: 'Beginner',
-      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
-      data_source_name: 'PhysioNet Gait Signals API'
-    },
-    { 
-      task_id: 'task_103', 
-      name: 'PPMI Clinical Metadata Schema Extractor', 
-      skills_required: ['Python', 'SQL', 'PostgreSQL'], 
-      difficulty: 'Advanced',
-      data_source_url: 'https://www.ppmi-info.org/access-data-specimens/download-data',
-      data_source_name: 'PPMI Data & Specimens Portal'
-    },
-    { 
-      task_id: 'task_104', 
-      name: 'Tremor Spectral Density Algorithm Validation', 
-      skills_required: ['Signal Processing', 'Python'], 
-      difficulty: 'Advanced',
-      data_source_url: 'https://physionet.org/content/gaitndd/1.0.0/',
-      data_source_name: 'PhysioNet Gait in Neurodegenerative Disease'
     }
   ];
 
