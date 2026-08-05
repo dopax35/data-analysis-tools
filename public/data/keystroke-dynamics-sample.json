@@ -1,0 +1,9 @@
+{
+  "platform": "Android/iOS Keyboard Logger",
+  "subject_id": "SUBJ_KEY_0821",
+  "keystrokes": [
+    {"key": "t", "press_ms": 100, "release_ms": 180, "dwell_time_ms": 80, "flight_time_ms": 120, "is_backspace": false},
+    {"key": "h", "press_ms": 300, "release_ms": 375, "dwell_time_ms": 75, "flight_time_ms": 110, "is_backspace": false},
+    {"key": "e", "press_ms": 485, "release_ms": 560, "dwell_time_ms": 75, "flight_time_ms": 105, "is_backspace": false}
+  ]
+}
