@@ -1,8 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import Navbar from '../components/Navbar';
 import GaitDatasetCard from '../components/GaitDatasetCard';
-import { Activity, Database, GitBranch, Cpu, ShieldCheck, ExternalLink, Code, UserPlus, Share2 } from 'lucide-react';
+import { Activity, Database, GitBranch, Cpu, ShieldCheck, ExternalLink, Code } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
         <meta name="description" content="dopa-X autonomous multi-agent platform for Parkinson's & neurodegenerative digital biomarker discovery." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
 
       <main style={{ padding: '40px 24px', maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header Section */}
@@ -28,12 +26,14 @@ export default function Home() {
               AI-driven multi-agent platform self-provisioning clinical gait datasets, Monday.com operational workflows, and GitHub automated CI/CD.
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <a href="/register" className="btn-primary">
-              <UserPlus size={16} /> Volunteer Register
-            </a>
-            <a href="/referral" className="btn-primary" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <Share2 size={16} /> Referral Hub
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <a 
+              href="https://github.com/dopax35/data-analysis-tools" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="btn-primary"
+            >
+              <GitBranch size={18} /> View GitHub Repo <ExternalLink size={14} />
             </a>
           </div>
         </header>
