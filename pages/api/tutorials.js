@@ -18,7 +18,7 @@ function ensureDb() {
           date: '2026-08-10',
           time: '15:00 UTC',
           attendeesCount: 28,
-          zoomUrl: 'https://dopa-x.vercel.app/tutorials/zoom-tut-101'
+          zoomUrl: 'https://data-analysis-tools-of1s.vercel.app/tutorials/zoom-tut-101'
         },
         {
           id: 'tut_102',
@@ -27,7 +27,7 @@ function ensureDb() {
           date: '2026-08-14',
           time: '16:00 UTC',
           attendeesCount: 19,
-          zoomUrl: 'https://dopa-x.vercel.app/tutorials/zoom-tut-102'
+          zoomUrl: 'https://data-analysis-tools-of1s.vercel.app/tutorials/zoom-tut-102'
         }
       ],
       bookings: []
