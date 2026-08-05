@@ -58,16 +58,17 @@ export default function StandaloneResearchHub() {
     {
       task_id: 'task_203',
       name: 'Keystroke Dynamics Cognitive & Motor Extraction',
-      category: 'Cognitive & Typing Dynamics',
-      description: 'Extract cognitive processing speed and fine motor impairment metrics from Android and iOS keyboard timing logs (dwell time, flight time, backspace error rates).',
-      data_url: '/data/keystroke-dynamics-sample.json',
-      data_name: 'keystroke-dynamics-sample.json (Portal Raw Data)',
-      skills: ['Python', 'Machine Learning', 'Cognitive Sciences'],
+      category: 'Mobile Phone App Algorithm Engine',
+      description: 'Algorithm development project to build an on-device feature engine embedded directly into the dopa-X Android & iOS Mobile Application to extract dwell time, flight time, backspace hesitancy index, and cognitive slowing during everyday keyboard usage.',
+      data_url: 'https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/keystroke_dynamics_pipeline.py',
+      data_name: 'keystroke_dynamics_pipeline.py (Mobile App Algorithm Source Code)',
+      is_algorithm_code: true,
+      skills: ['Python', 'Kotlin/Swift', 'Mobile Algorithms'],
       steps: [
-        'Step 1: Parse key press/release timestamps and calculate dwell time (press to release)',
-        'Step 2: Compute flight time (release of key N to press of key N+1)',
+        'Step 1: Capture Android/iOS system keyboard events (KeyDown, KeyUp, KeyCode)',
+        'Step 2: Calculate dwell time (press-to-release) & flight time (release-to-press)',
         'Step 3: Extract backspace correction frequency as an index of cognitive hesitancy',
-        'Step 4: Model typing speed decay over 60-second typing sessions'
+        'Step 4: Embed lightweight feature extraction pipeline inside dopa-X mobile application'
       ]
     }
   ];
