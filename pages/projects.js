@@ -2,18 +2,44 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import ProjectTaskCard from '../components/ProjectTaskCard';
-import { Activity, Filter, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Activity, Filter, RefreshCw, CheckCircle2, ShieldCheck, Download, GitBranch } from 'lucide-react';
 
 export default function Projects() {
   const [selectedSkill, setSelectedSkill] = useState('All');
 
   const tasks = [
-    { task_id: 'task_101', name: 'Implement Gait FFT Feature Pipeline', skills_required: ['Python', 'Signal Processing'], difficulty: 'Intermediate' },
-    { task_id: 'task_102', name: 'Build PhysioNet Metadata Visualizer Component', skills_required: ['React', 'Next.js'], difficulty: 'Beginner' },
-    { task_id: 'task_103', name: 'PPMI Clinical Metadata Ingestion & Vercel DB Sync', skills_required: ['Python', 'SQL', 'PostgreSQL'], difficulty: 'Advanced' },
-    { task_id: 'task_104', name: 'Tremor Spectral Density Algorithm Validation', skills_required: ['Signal Processing', 'Python'], difficulty: 'Advanced' },
-    { task_id: 'task_105', name: 'Develop React Gait Signal Spectrogram Viewer', skills_required: ['React', 'Next.js', 'Signal Processing'], difficulty: 'Intermediate' },
-    { task_id: 'task_106', name: 'Setup Automated GitHub PR Data Hygiene Linter', skills_required: ['Python', 'Git'], difficulty: 'Beginner' }
+    { 
+      task_id: 'task_101', 
+      name: 'Implement Gait FFT Feature Pipeline', 
+      skills_required: ['Python', 'Signal Processing'], 
+      difficulty: 'Intermediate',
+      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
+      data_source_name: 'PhysioNet Gait in Parkinson\'s Database'
+    },
+    { 
+      task_id: 'task_102', 
+      name: 'Build PhysioNet Signal Spectrogram Visualizer Component', 
+      skills_required: ['React', 'Next.js'], 
+      difficulty: 'Beginner',
+      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
+      data_source_name: 'PhysioNet Gait Signals API'
+    },
+    { 
+      task_id: 'task_103', 
+      name: 'PPMI Clinical Metadata Schema Extractor', 
+      skills_required: ['Python', 'SQL', 'PostgreSQL'], 
+      difficulty: 'Advanced',
+      data_source_url: 'https://www.ppmi-info.org/access-data-specimens/download-data',
+      data_source_name: 'PPMI Data & Specimens Portal'
+    },
+    { 
+      task_id: 'task_104', 
+      name: 'Tremor Spectral Density Algorithm Validation', 
+      skills_required: ['Signal Processing', 'Python'], 
+      difficulty: 'Advanced',
+      data_source_url: 'https://physionet.org/content/gaitndd/1.0.0/',
+      data_source_name: 'PhysioNet Gait in Neurodegenerative Disease'
+    }
   ];
 
   const skillsList = ['All', 'Python', 'Signal Processing', 'React', 'Next.js', 'SQL', 'PostgreSQL'];
@@ -30,16 +56,16 @@ export default function Projects() {
       <Navbar />
 
       <main style={{ padding: '40px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-        <header style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+        <header style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div className="badge badge-emerald" style={{ marginBottom: '12px' }}>
               <CheckCircle2 size={14} /> Monday.com GraphQL Sync Active
             </div>
             <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px' }}>
-              Open <span className="gradient-text">Research Tasks</span>
+              Algorithm Development <span className="gradient-text">Task Board</span>
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '600px' }}>
-              Browse unassigned Monday.com tasks, filter by your technical skills, and claim tasks directly via GitHub PR templates.
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '650px' }}>
+              Download raw clinical datasets directly from official sources (PhysioNet, PPMI), develop signal processing algorithms, and contribute code to our GitHub repository.
             </p>
           </div>
 
@@ -49,10 +75,20 @@ export default function Projects() {
           </div>
         </header>
 
+        {/* Data Governance & Legal Compliance Alert Box */}
+        <div className="glass-panel" style={{ padding: '20px', marginBottom: '32px', borderLeft: '4px solid var(--accent-emerald)', background: 'rgba(16, 185, 129, 0.05)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '1.05rem', marginBottom: '6px' }}>
+            <ShieldCheck size={20} /> Data Governance & Compliance Policy
+          </div>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>
+            To adhere to human subjects research compliance and medical data licensing, <strong>raw dataset files are never stored in our GitHub repository</strong>. Volunteer researchers download raw signals directly from official open-access providers (PhysioNet, PPMI, Synapse) and submit only algorithm source code to GitHub.
+          </p>
+        </div>
+
         {/* Skill Filter Bar */}
         <section style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-            <Filter size={16} /> Filter by Skill:
+            <Filter size={16} /> Filter Tasks by Skill:
           </span>
           {skillsList.map((skill) => (
             <button
