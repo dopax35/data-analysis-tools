@@ -14,7 +14,7 @@ export default function Projects() {
       skills_required: ['Python', 'Signal Processing', 'Oculomotor'], 
       difficulty: 'Intermediate',
       data_source_url: '/data/eyetracking-sample.csv',
-      data_source_name: 'dopa-X Eye-Tracking Dataset (Gaze Speed, Jitter & Blinking Rate)'
+      data_source_name: 'dopa-X Portal Eye-Tracking Dataset (Gaze Speed & Jitter)'
     },
     { 
       task_id: 'task_202', 
@@ -26,11 +26,11 @@ export default function Projects() {
     },
     { 
       task_id: 'task_203', 
-      name: 'Keystroke Dynamics Cognitive & Motor Extraction', 
-      skills_required: ['Python', 'Machine Learning', 'Cognitive Sciences'], 
+      name: 'Keystroke Dynamics Cognitive & Motor Extraction Engine', 
+      skills_required: ['Python', 'Kotlin/Swift', 'Mobile Algorithms'], 
       difficulty: 'Advanced',
-      data_source_url: '/data/keystroke-dynamics-sample.json',
-      data_source_name: 'Android & iOS Keyboard Timing Logs (Dwell & Flight Time)'
+      data_source_url: 'https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/keystroke_dynamics_pipeline.py',
+      data_source_name: 'dopa-X Phone App On-Device Algorithm Engine'
     },
     { 
       task_id: 'task_101', 
@@ -39,6 +39,30 @@ export default function Projects() {
       difficulty: 'Intermediate',
       data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
       data_source_name: 'PhysioNet Gait in Parkinson\'s Database'
+    },
+    { 
+      task_id: 'task_102', 
+      name: 'Build PhysioNet Signal Spectrogram Visualizer Component', 
+      skills_required: ['React', 'Next.js', 'D3.js'], 
+      difficulty: 'Beginner',
+      data_source_url: 'https://physionet.org/content/gait-in-parkinsons-disease-1.0.0/',
+      data_source_name: 'PhysioNet Gait Signals API'
+    },
+    { 
+      task_id: 'task_103', 
+      name: 'PPMI Clinical Metadata Schema Extractor', 
+      skills_required: ['Python', 'SQL', 'PostgreSQL'], 
+      difficulty: 'Advanced',
+      data_source_url: 'https://www.ppmi-info.org/access-data-specimens/download-data',
+      data_source_name: 'PPMI Data & Specimens Portal'
+    },
+    { 
+      task_id: 'task_104', 
+      name: 'Tremor Spectral Density Algorithm Validation', 
+      skills_required: ['Signal Processing', 'Python'], 
+      difficulty: 'Advanced',
+      data_source_url: 'https://physionet.org/content/gaitndd/1.0.0/',
+      data_source_name: 'PhysioNet Gait in Neurodegenerative Disease'
     }
   ];
 
@@ -50,7 +74,7 @@ export default function Projects() {
       try {
         const res = await fetch('/api/tasks');
         const data = await res.json();
-        if (data.tasks) {
+        if (data.tasks && data.tasks.length >= 4) {
           setTasks(data.tasks);
         }
       } catch (err) {
@@ -62,81 +86,84 @@ export default function Projects() {
     loadTasks();
   }, []);
 
-  const skillsList = ['All', 'Python', 'Signal Processing', 'React', 'Next.js', 'SQL', 'PostgreSQL'];
+  const skillsList = ['All', 'Python', 'Signal Processing', 'React', 'Oculomotor', 'Kinematics', 'Mobile Algorithms', 'SQL'];
 
-  const filteredTasks = selectedSkill === 'All' 
-    ? tasks 
+  const filteredTasks = selectedSkill === 'All'
+    ? tasks
     : tasks.filter(t => t.skills_required.includes(selectedSkill));
 
   return (
     <>
       <Head>
-        <title>Monday.com Projects & Tasks | dopa-X Community</title>
+        <title>Projects & Tasks Board | dopa-X Community</title>
+        <meta name="description" content="Open data science tasks for Parkinson's disease digital biomarker algorithms." />
       </Head>
       <Navbar />
 
       <main style={{ padding: '40px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-        <header style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div>
-            <div className="badge badge-emerald" style={{ marginBottom: '12px' }}>
-              <CheckCircle2 size={14} /> Monday.com GraphQL Sync Active
-            </div>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px' }}>
-              Algorithm Development <span className="gradient-text">Task Board</span>
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '650px' }}>
-              Download raw clinical datasets directly from official sources (PhysioNet, PPMI), develop signal processing algorithms, and contribute code to our GitHub repository.
-            </p>
+        <header style={{ marginBottom: '32px' }}>
+          <div className="badge badge-cyan" style={{ marginBottom: '12px' }}>
+            <Activity size={14} /> Monday.com Task Workspace
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.3)', padding: '8px 16px', borderRadius: '10px', border: '1px solid var(--border-card)' }}>
-            <RefreshCw size={14} className="gradient-text" />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Updated 5m ago by <code>agent-guide</code></span>
-          </div>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px' }}>
+            Clinical Biomarker <span className="gradient-text">Algorithm Projects</span>
+          </h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '700px' }}>
+            Browse open projects for signal processing, mobile app feature engines, and clinical metadata extractors. Click any card to open its project detail page and discussion forum.
+          </p>
         </header>
 
-        {/* Data Governance & Legal Compliance Alert Box */}
-        <div className="glass-panel" style={{ padding: '20px', marginBottom: '32px', borderLeft: '4px solid var(--accent-emerald)', background: 'rgba(16, 185, 129, 0.05)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '1.05rem', marginBottom: '6px' }}>
-            <ShieldCheck size={20} /> Data Governance & Compliance Policy
+        {/* Data Governance Banner */}
+        <div className="glass-panel" style={{ padding: '20px', marginBottom: '32px', border: '1px solid rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.08)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '1rem', marginBottom: '4px' }}>
+            <ShieldCheck size={18} /> Raw Data Access Policy
           </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-            To adhere to human subjects research compliance and medical data licensing, <strong>raw dataset files are never stored in our GitHub repository</strong>. Volunteer researchers download raw signals directly from official open-access providers (PhysioNet, PPMI, Synapse) and submit only algorithm source code to GitHub.
+          <p style={{ color: 'var(--text-main)', fontSize: '0.9rem', lineHeight: 1.5 }}>
+            To comply with data privacy governance, raw clinical datasets are downloaded directly from open access portals (PhysioNet, PPMI, dopa-X Portal). GitHub is exclusively for sharing developed algorithm source code.
           </p>
         </div>
 
-        {/* Skill Filter Bar */}
-        <section style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        {/* Filter Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-            <Filter size={16} /> Filter Tasks by Skill:
+            <Filter size={16} /> Filter by Skill:
           </span>
-          {skillsList.map((skill) => (
-            <button
-              key={skill}
-              onClick={() => setSelectedSkill(skill)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: '20px',
-                border: selectedSkill === skill ? '1px solid var(--accent-cyan)' : '1px solid rgba(255,255,255,0.08)',
-                background: selectedSkill === skill ? 'rgba(6, 182, 212, 0.2)' : 'rgba(0,0,0,0.2)',
-                color: selectedSkill === skill ? 'var(--accent-cyan)' : 'var(--text-muted)',
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                transition: 'all 0.2s ease'
-              }}
-            >
-              {skill}
-            </button>
-          ))}
-        </section>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {skillsList.map((skill) => (
+              <button
+                key={skill}
+                onClick={() => setSelectedSkill(skill)}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '999px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: selectedSkill === skill ? 'var(--accent-cyan)' : 'rgba(255,255,255,0.06)',
+                  color: selectedSkill === skill ? 'black' : 'var(--text-muted)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {skill}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Tasks Grid */}
-        <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', marginBottom: '48px' }}>
-          {filteredTasks.map((task) => (
-            <ProjectTaskCard key={task.task_id} task={task} />
-          ))}
-        </section>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
+            <RefreshCw size={24} className="animate-spin" style={{ marginBottom: '8px' }} />
+            <p>Loading projects from Monday.com board...</p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+            {filteredTasks.map((task) => (
+              <ProjectTaskCard key={task.task_id} task={task} />
+            ))}
+          </div>
+        )}
       </main>
     </>
   );
