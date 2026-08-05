@@ -1,14 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
-import GaitDatasetCard from '../components/GaitDatasetCard';
-import { Activity, Database, GitBranch, Cpu, ShieldCheck, ExternalLink, Code } from 'lucide-react';
+import DataSourcesGrid from '../components/DataSourcesGrid';
+import { Activity, Database, GitBranch, Cpu, ShieldCheck, ExternalLink, Code, Layers, FileText } from 'lucide-react';
 
 export default function Home() {
   return (
     <>
       <Head>
         <title>dopa-X | Neurodegenerative Digital Biomarker Data Platform</title>
-        <meta name="description" content="dopa-X autonomous multi-agent platform for Parkinson's & neurodegenerative digital biomarker discovery." />
+        <meta name="description" content="dopa-X multi-agent platform for Parkinson's & neurodegenerative digital biomarker discovery." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -17,23 +17,30 @@ export default function Home() {
         <header style={{ marginBottom: '48px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div className="badge badge-emerald" style={{ marginBottom: '12px' }}>
-              <ShieldCheck size={14} /> Autonomous Agent System Active
+              <ShieldCheck size={14} /> Autonomous 9-Agent System Active
             </div>
             <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px' }}>
               dopa-X <span className="gradient-text">Data Platform</span>
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '600px' }}>
-              AI-driven multi-agent platform self-provisioning clinical gait datasets, Monday.com operational workflows, and GitHub automated CI/CD.
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '650px', lineHeight: 1.6 }}>
+              AI-driven multi-agent platform integrating clinical datasets from PhysioNet, PPMI, OpenNeuro, and Zenodo, while engineering mobile app algorithms for neurodegenerative digital biomarkers.
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <a 
               href="https://github.com/dopax35/data-analysis-tools" 
               target="_blank" 
               rel="noreferrer" 
               className="btn-primary"
             >
-              <GitBranch size={18} /> View GitHub Repo <ExternalLink size={14} />
+              <GitBranch size={18} /> GitHub Repository <ExternalLink size={14} />
+            </a>
+            <a 
+              href="/research" 
+              className="btn-primary"
+              style={{ background: 'linear-gradient(135deg, var(--accent-violet), var(--accent-cyan))' }}
+            >
+              <Layers size={18} /> Research Lab Workspace
             </a>
           </div>
         </header>
@@ -46,37 +53,34 @@ export default function Home() {
               <h3 style={{ fontSize: '1.2rem' }}>Master Router</h3>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-              <code>agent-pm</code> orchestrating 6 specialized autonomous sub-agents without human intervention.
+              <code>agent-pm</code> orchestrating 8 specialized autonomous sub-agents across data hunting, audit, ops, and QA.
             </p>
           </div>
 
           <div className="glass-panel" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', color: 'var(--accent-violet)' }}>
               <Database size={24} />
-              <h3 style={{ fontSize: '1.2rem' }}>Data Scout</h3>
+              <h3 style={{ fontSize: '1.2rem' }}>Data Hunter & Scout</h3>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-              <code>agent-scout</code> monitoring PhysioNet clinical repositories and ingesting gait force signals.
+              <code>agent-crawler</code> and <code>agent-scout</code> monitoring PhysioNet, PPMI, Zenodo, and OpenNeuro open repositories.
             </p>
           </div>
 
           <div className="glass-panel" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px', color: 'var(--accent-emerald)' }}>
               <Activity size={24} />
-              <h3 style={{ fontSize: '1.2rem' }}>System Reliability</h3>
+              <h3 style={{ fontSize: '1.2rem' }}>Executive Compliance</h3>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-              <code>agent-maintenance</code> monitoring Vercel hosting health, API rate limits, and audit logs.
+              <code>agent-auditor</code> verifying de-identification, IRB compliance, and Parkinson's clinical relevance.
             </p>
           </div>
         </section>
 
-        {/* Live Integrated Component Section */}
+        {/* All Data Sources & Mobile App Algorithms */}
         <section style={{ marginBottom: '48px' }}>
-          <h2 style={{ fontSize: '1.75rem', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Code size={22} className="gradient-text" /> Integrated Clinical Datasets
-          </h2>
-          <GaitDatasetCard />
+          <DataSourcesGrid />
         </section>
 
         {/* Footer */}
