@@ -1,0 +1,14 @@
+{
+  "device": "dopa-X Mobile Sensor Logger",
+  "sample_rate_hz": 100,
+  "sensors": {
+    "accelerometer": [
+      {"timestamp_ms": 0, "acc_x": 0.02, "acc_y": 9.81, "acc_z": 0.15},
+      {"timestamp_ms": 10, "acc_x": 0.05, "acc_y": 9.78, "acc_z": 0.18}
+    ],
+    "gyroscope": [
+      {"timestamp_ms": 0, "gyro_x": 0.001, "gyro_y": 0.002, "gyro_z": -0.001},
+      {"timestamp_ms": 10, "gyro_x": 0.003, "gyro_y": -0.001, "gyro_z": 0.002}
+    ]
+  }
+}
