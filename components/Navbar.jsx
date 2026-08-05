@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Activity, LayoutGrid, UserPlus, Share2, Video, Layers, BookOpen } from 'lucide-react';
+import { Activity, LayoutGrid, UserPlus, Share2, Video, Layers, BookOpen, ShieldCheck } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
@@ -14,6 +14,7 @@ export default function Navbar() {
     { name: 'Community Hub', path: '/referral', icon: Share2 },
     { name: 'Research Lab', path: '/research', icon: Layers },
     { name: 'Docs & Guide', path: '/docs', icon: BookOpen },
+    { name: 'Legal & Privacy', path: '/legal', icon: ShieldCheck },
   ];
 
   return (
@@ -24,7 +25,7 @@ export default function Navbar() {
             dX
           </div>
           <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)' }}>
-            dopa-<span className="gradient-text">X</span> Community
+            dopa-<span className="gradient-text">X</span> Portal
           </span>
         </Link>
 
@@ -40,9 +41,9 @@ export default function Navbar() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  padding: '7px 12px',
+                  padding: '7px 11px',
                   borderRadius: '8px',
-                  fontSize: '0.85rem',
+                  fontSize: '0.82rem',
                   fontWeight: 500,
                   textDecoration: 'none',
                   color: isActive ? 'var(--accent-cyan)' : 'var(--text-muted)',
