@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
-import { UserPlus, CheckCircle, Share2, Copy, Github, Mail, User, Sparkles, ShieldCheck, FileText } from 'lucide-react';
+import { UserPlus, CheckCircle, Share2, Copy, Github, Mail, User, Sparkles, ShieldCheck, FileText, Check } from 'lucide-react';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -10,11 +10,12 @@ export default function Register() {
     email: '',
     github: '',
     skills: ['Python', 'Signal Processing'],
-    agreedToTerms: false
+    agreedToTerms: true
   });
 
   const [registeredUser, setRegisteredUser] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const availableSkills = [
     'Python', 'Signal Processing', 'React', 'Next.js', 'Machine Learning', 
@@ -32,9 +33,11 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.agreedToTerms) {
-      alert("Please read and accept the Data Privacy & Research Participant Consent Agreement before registering.");
+      alert("Please accept the Data Privacy & Research Participant Consent Agreement before completing registration.");
       return;
     }
+
+    setLoading(true);
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
@@ -43,21 +46,26 @@ export default function Register() {
       });
       const data = await res.json();
       if (res.ok && data.user) {
-        // Save session authentication in localStorage for portal access gate
+        // Save session in localStorage
         if (typeof window !== 'undefined') {
           localStorage.setItem('dopax_user', JSON.stringify(data.user));
         }
 
-        const portalRefUrl = `https://www.dopa-x.org/portal/register?ref=${data.user.refCode}`;
+        const refUrl = `https://www.dopa-x.org/portal/register?ref=${data.user.refCode}`;
         setRegisteredUser({
           name: data.user.name,
           github: data.user.github,
           refCode: data.user.refCode,
-          refUrl: portalRefUrl
+          refUrl: refUrl
         });
+      } else {
+        alert(data.message || "Registration failed. Please try again.");
       }
     } catch (err) {
       console.error('Registration API error:', err);
+      alert("Registration failed. Please check network connection.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,20 +80,20 @@ export default function Register() {
   return (
     <>
       <Head>
-        <title>User Registration & Consent | dopa-X Portal</title>
+        <title>Volunteer Registration | dopa-X Portal</title>
       </Head>
       <Navbar />
 
       <main style={{ padding: '40px 24px', maxWidth: '800px', margin: '0 auto' }}>
         <header style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div className="badge badge-cyan" style={{ marginBottom: '12px' }}>
-            <Sparkles size={14} /> Step 1: User Registration & Portal Gate
+            <Sparkles size={14} /> Join 250+ Research Volunteers
           </div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px' }}>
             Volunteer <span className="gradient-text">Registration</span>
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>
-            Registration and consent agreement are required to access the dopa-X research portal at <code>https://www.dopa-x.org/portal</code>.
+            Register your technical skills to get matched with Monday.com biomarker tasks & generate your custom referral link.
           </p>
         </header>
 
@@ -154,17 +162,21 @@ export default function Register() {
                         cursor: 'pointer',
                         fontSize: '0.85rem',
                         fontWeight: 600,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
                         transition: 'all 0.2s ease'
                       }}
                     >
-                      {isSelected ? 'âœ“ ' : ''}{skill}
+                      {isSelected && <Check size={14} />}
+                      {skill}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* TBD Data Privacy & Consent Agreement Checkbox */}
+            {/* Terms & Consent Checkbox */}
             <div style={{ background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', padding: '16px', borderRadius: '10px' }}>
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', fontSize: '0.88rem', color: 'white', lineHeight: 1.5 }}>
                 <input 
@@ -175,10 +187,10 @@ export default function Register() {
                   style={{ marginTop: '3px', width: '18px', height: '18px', accentColor: 'var(--accent-cyan)' }}
                 />
                 <div>
-                  I have read and agree to the <strong>TBD Data Privacy Policy & Research Participant Consent Agreement</strong>. I understand that raw data is hosted on official portals and contributed algorithms are open-source.
-                  <div style={{ marginTop: '6px' }}>
+                  I agree to the <strong>TBD Data Privacy Policy & Research Participant Consent Terms</strong>.
+                  <div style={{ marginTop: '4px' }}>
                     <Link href="/legal" target="_blank" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                      <FileText size={12} /> Read Full Legal Terms & Privacy Policy
+                      <FileText size={12} /> Read Full Legal Statements
                     </Link>
                   </div>
                 </div>
@@ -188,18 +200,18 @@ export default function Register() {
             <button 
               type="submit" 
               className="btn-primary" 
-              disabled={!formData.agreedToTerms}
-              style={{ marginTop: '8px', justifyContent: 'center', padding: '14px', opacity: formData.agreedToTerms ? 1 : 0.5, cursor: formData.agreedToTerms ? 'pointer' : 'not-allowed' }}
+              disabled={loading || !formData.agreedToTerms}
+              style={{ marginTop: '8px', justifyContent: 'center', padding: '14px', opacity: formData.agreedToTerms ? 1 : 0.5 }}
             >
-              <UserPlus size={18} /> Agree to Terms & Complete Portal Registration
+              <UserPlus size={18} /> {loading ? 'Processing Registration...' : 'Complete Registration & Generate Referral Link'}
             </button>
           </form>
         ) : (
           <div className="glass-panel" style={{ padding: '40px', textAlign: 'center' }}>
             <CheckCircle size={56} style={{ color: 'var(--accent-emerald)', marginBottom: '16px' }} />
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Registration Complete, {registeredUser.name}!</h2>
+            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Welcome, {registeredUser.name}!</h2>
             <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-              You have accepted the consent terms and registered with <code>https://www.dopa-x.org/portal</code>.
+              Your profile is registered with dopa-X Community. You are ready to claim algorithm tasks!
             </p>
 
             <div style={{ background: 'rgba(0,0,0,0.4)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-card)', marginBottom: '24px' }}>
@@ -220,7 +232,7 @@ export default function Register() {
             </div>
 
             <a href="/projects" className="btn-primary" style={{ textDecoration: 'none', padding: '12px 24px' }}>
-              Enter dopa-X Research Portal & View Projects
+              Enter dopa-X Projects Board & Claim Tasks
             </a>
           </div>
         )}
