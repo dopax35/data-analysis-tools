@@ -87,7 +87,7 @@ def flag_strategic_issue(issue_description: str, severity: str = "HIGH") -> dict
 
 # --- 3. Active Web Scraper Agent (agent-crawler) Tools ---
 
-def execute_web_search(query: str = "Parkinson's open gait dataset Kaggle Zenodo OpenNeuro") -> dict:
+def execute_web_search(query: str = "Parkinson's open oculomotor gait dataset Kaggle Zenodo OpenNeuro") -> dict:
     """Scrapes Kaggle, Zenodo, OpenNeuro, GitHub, and preprints for new neurodegenerative datasets."""
     _log_action("agent-crawler", "execute_web_search", f"Searching web sources for query: '{query}'")
     return {
@@ -250,11 +250,11 @@ def post_github_pr_comment_and_merge(pr_number: int, comment: str, approve: bool
     _log_action("agent-code-reviewer", "post_github_pr_comment_and_merge", f"Reviewing PR #{pr_number}: Approve={approve}, Comment='{comment}'")
     return {"status": "merged" if approve else "commented", "pr_number": pr_number, "action": "auto-merged" if approve else "rejected"}
 
-# --- 7. UX/UI & Frontend Agent (agent-ux) Tools ---
+# --- 7. Frontend Developer Agent (agent-frontend) Tools ---
 
 def generate_react_component(component_name: str, spec: str) -> dict:
     """Generates a modern, responsive React component based on specification."""
-    _log_action("agent-ux", "generate_react_component", f"Creating component '{component_name}' with spec: {spec}")
+    _log_action("agent-frontend", "generate_react_component", f"Creating component '{component_name}' with spec: {spec}")
     jsx_code = f"""import React from 'react';
 
 export const {component_name} = () => {{
@@ -271,12 +271,12 @@ export default {component_name};
 
 def submit_frontend_pr(branch_name: str, component_name: str) -> dict:
     """Submits frontend component updates via a feature branch PR for agent-code-reviewer to assess."""
-    _log_action("agent-ux", "submit_frontend_pr", f"Submitting PR from branch '{branch_name}' for component '{component_name}'")
+    _log_action("agent-frontend", "submit_frontend_pr", f"Submitting PR from branch '{branch_name}' for component '{component_name}'")
     return {"status": "pr_submitted", "branch": branch_name, "component": component_name, "pr_number": 102}
 
 def commit_frontend_update(file_path: str, content: str, commit_message: str) -> dict:
     """Commits frontend changes directly to the GitHub repository."""
-    _log_action("agent-ux", "commit_frontend_update", f"Committing to '{file_path}' - {commit_message}")
+    _log_action("agent-frontend", "commit_frontend_update", f"Committing to '{file_path}' - {commit_message}")
     github_token = _get_github_token()
     repo = os.getenv("GITHUB_REPO", "dopax35/data-analysis-tools")
     
@@ -298,14 +298,26 @@ def commit_frontend_update(file_path: str, content: str, commit_message: str) ->
         else:
             return {"status": "error", "error": put_res.text}
     else:
-        _log_action("agent-ux", "commit_frontend_update", "[DRY-RUN] Simulated GitHub commit")
+        _log_action("agent-frontend", "commit_frontend_update", "[DRY-RUN] Simulated GitHub commit")
         return {"status": "simulated", "file": file_path, "commit_message": commit_message}
 
-# --- 8. Maintenance & Infrastructure Agent (agent-maintenance) Tools ---
+# --- 8. Backend Developer Agent (agent-backend) Tools ---
+
+def build_api_endpoint(route_path: str, methods: list) -> dict:
+    """Builds and verifies serverless API endpoints in Next.js pages/api directory."""
+    _log_action("agent-backend", "build_api_endpoint", f"Building API route '{route_path}' supporting methods {methods}")
+    return {"status": "created", "route": route_path, "supported_methods": methods}
+
+def sync_database_schema(table_name: str, schema: dict) -> dict:
+    """Verifies and synchronizes persistent JSON database schemas for registrations and discussions."""
+    _log_action("agent-backend", "sync_database_schema", f"Synchronizing table '{table_name}' schema")
+    return {"status": "synced", "table": table_name, "fields_count": len(schema)}
+
+# --- 9. DevOps & Infrastructure Agent (agent-devops) Tools ---
 
 def setup_vercel_project(project_name: str = "dopa-x-portal") -> dict:
     """Initializes or verifies the Vercel hosting project configuration."""
-    _log_action("agent-maintenance", "setup_vercel_project", f"Setting up Vercel project '{project_name}'")
+    _log_action("agent-devops", "setup_vercel_project", f"Setting up Vercel project '{project_name}'")
     vercel_token = os.getenv("VERCEL_TOKEN")
     team_id = os.getenv("VERCEL_ORG_ID")
     
@@ -321,13 +333,13 @@ def setup_vercel_project(project_name: str = "dopa-x-portal") -> dict:
         else:
             return {"status": "exists_or_info", "response": res.json()}
     else:
-        _log_action("agent-maintenance", "setup_vercel_project", "[DRY-RUN] Simulated Vercel project setup")
+        _log_action("agent-devops", "setup_vercel_project", "[DRY-RUN] Simulated Vercel project setup")
         return {"status": "simulated", "project_id": "prj_dopax_mock_123", "name": project_name}
 
 def deploy_to_vercel(project_id: str = None) -> dict:
     """Triggers a production deployment via the Vercel REST API."""
     project_id = project_id or os.getenv("VERCEL_PROJECT_ID", "prj_dopax_mock_123")
-    _log_action("agent-maintenance", "deploy_to_vercel", f"Triggering Vercel deployment for project '{project_id}'")
+    _log_action("agent-devops", "deploy_to_vercel", f"Triggering Vercel deployment for project '{project_id}'")
     vercel_token = os.getenv("VERCEL_TOKEN")
     team_id = os.getenv("VERCEL_ORG_ID")
     
@@ -343,15 +355,15 @@ def deploy_to_vercel(project_id: str = None) -> dict:
         else:
             return {"status": "error", "response": res.text}
     else:
-        _log_action("agent-maintenance", "deploy_to_vercel", "[DRY-RUN] Simulated Vercel production deployment")
+        _log_action("agent-devops", "deploy_to_vercel", "[DRY-RUN] Simulated Vercel production deployment")
         return {"status": "simulated", "deployment_url": "https://data-analysis-tools-of1s.vercel.app", "deployment_id": "dpl_mock_987"}
 
 def log_to_google_sheets(event_type: str, details: str) -> dict:
     """Logs system events and deployment statuses to Google Sheets audit log."""
-    _log_action("agent-maintenance", "log_to_google_sheets", f"Logging event '{event_type}': {details}")
+    _log_action("agent-devops", "log_to_google_sheets", f"Logging event '{event_type}': {details}")
     return {"status": "logged", "event_type": event_type, "details": details}
 
-# --- 9. Community Guide Agent (agent-guide) Tools ---
+# --- 10. Community Guide Agent (agent-guide) Tools ---
 
 def query_unassigned_monday_tasks() -> dict:
     """Queries Monday.com for open tasks without assigned community contributors."""
