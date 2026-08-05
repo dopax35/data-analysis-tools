@@ -90,7 +90,7 @@ export default function DataSourcesGrid() {
       type: 'On-Device Mobile App Algorithm Development',
       inputs: 'Android / iOS System Keyboard Events (Down, Up, Keycode)',
       featuresExtracted: 'Dwell Time, Flight Time, Backspace Hesitancy Index, Typing Speed Decay',
-      codeUrl: 'https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/keystroke_dynamics_pipeline.py',
+      codeUrl: 'https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-3-keystroke-dynamics-cognitive--motor-engine-task_203',
       description: 'This is an algorithm development project to build an on-device feature engine embedded directly inside the dopa-X Mobile App to capture cognitive slowing and fine motor tremor during everyday typing.'
     }
   ];
