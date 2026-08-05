@@ -42,7 +42,7 @@ export default function Register() {
           name: data.user.name,
           github: data.user.github,
           refCode: data.user.refCode,
-          refUrl: `https://dopa-x.vercel.app/register?ref=${data.user.refCode}`
+          refUrl: `https://data-analysis-tools-of1s.vercel.app/register?ref=${data.user.refCode}`
         });
       }
     } catch (err) {
