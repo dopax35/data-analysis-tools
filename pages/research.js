@@ -318,8 +318,8 @@ export default function StandaloneResearchHub() {
                 <h4 style={{ color: '#10b981', marginBottom: '4px' }}>Registration Complete, {registeredUser.name}!</h4>
                 <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '12px' }}>Your referral code: <code>{registeredUser.refCode}</code></p>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <input type="text" readOnly value={`https://dopa-x.vercel.app/research?ref=${registeredUser.refCode}`} style={{ flex: 1, padding: '8px 12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: '#06b6d4', fontSize: '0.85rem', fontFamily: 'monospace' }} />
-                  <button onClick={() => { navigator.clipboard.writeText(`https://dopa-x.vercel.app/research?ref=${registeredUser.refCode}`); setCopiedRef(true); setTimeout(() => setCopiedRef(false), 2000); }} style={{ padding: '8px 14px', background: '#06b6d4', color: 'black', fontWeight: 700, border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>{copiedRef ? 'Copied!' : 'Copy'}</button>
+                  <input type="text" readOnly value={`https://data-analysis-tools-of1s.vercel.app/research?ref=${registeredUser.refCode}`} style={{ flex: 1, padding: '8px 12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: '#06b6d4', fontSize: '0.85rem', fontFamily: 'monospace' }} />
+                  <button onClick={() => { navigator.clipboard.writeText(`https://data-analysis-tools-of1s.vercel.app/research?ref=${registeredUser.refCode}`); setCopiedRef(true); setTimeout(() => setCopiedRef(false), 2000); }} style={{ padding: '8px 14px', background: '#06b6d4', color: 'black', fontWeight: 700, border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>{copiedRef ? 'Copied!' : 'Copy'}</button>
                 </div>
               </div>
             )}
