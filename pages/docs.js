@@ -47,43 +47,47 @@ export default function Documentation() {
         {/* Algorithm Pipelines Overview */}
         <section className="glass-panel" style={{ padding: '28px', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Code size={22} className="gradient-text" /> Community Algorithm Repositories
+            <Code size={22} className="gradient-text" /> Community Algorithm Development Tasks
           </h2>
+
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '20px', lineHeight: 1.6 }}>
+            The algorithm feature extraction pipelines for eye-tracking, mobile sensor streams, and keystroke dynamics are developed by community volunteer data scientists and software engineers. Explore the open task specifications below:
+          </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '6px' }}>
-                1. Eye-Tracking Gaze Dynamics Pipeline (`algorithms/eyetracking_gaze_pipeline.py`)
+                1. Eye-Tracking Gaze Dynamics Task (`task_201`)
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '10px' }}>
-                Computes Bivariate Contour Ellipse Area (BCEA gaze stability), angular velocity (deg/sec), micro-saccadic jitter (20â€“50Hz power), and blinking rate per minute.
+                Develop a Python pipeline to compute BCEA gaze stability, angular speed (deg/sec), 20â€“50Hz micro-saccadic jitter, and blinking rate from raw eye-tracking CSV signals.
               </p>
-              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/eyetracking_gaze_pipeline.py" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-cyan)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                View Python Source Code <ExternalLink size={12} />
+              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-1-eye-tracking-biomarker--gaze-dynamics-pipeline-task_201" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-cyan)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                View Task Specification & Input Schema <ExternalLink size={12} />
               </a>
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent-violet)', marginBottom: '6px' }}>
-                2. Mobile App Motion Sensor Pipeline (`algorithms/mobile_sensor_pipeline.py`)
+                2. Mobile App Motion Sensor Task (`task_202`)
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '10px' }}>
-                Preprocesses 100Hz accelerometer and gyroscope motion streams using 4th order Butterworth filters. Extracts stride timing asymmetry and 3â€“8Hz resting tremor spectral power.
+                Develop 100Hz 3-axis accelerometer and gyroscope preprocessing algorithms using Butterworth filtering to extract stride timing asymmetry and 3â€“8Hz resting tremor power.
               </p>
-              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/mobile_sensor_pipeline.py" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-violet)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                View Python Source Code <ExternalLink size={12} />
+              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-2-dopa-x-mobile-app-sensor-biomarkers-task_202" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-violet)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                View Task Specification & Input Schema <ExternalLink size={12} />
               </a>
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent-emerald)', marginBottom: '6px' }}>
-                3. Mobile App Keystroke Dynamics Engine (`algorithms/keystroke_dynamics_pipeline.py`)
+                3. Mobile App Keystroke Dynamics Engine (`task_203`)
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '10px' }}>
-                Engineered for embedding into the dopa-X Android & iOS Phone App. Extracts dwell time, flight time, backspace correction hesitancy index, and typing speed decay curves.
+                Develop an on-device feature extraction engine for embedding into the dopa-X Android & iOS Phone Application to extract dwell time, flight time, and backspace hesitancy index.
               </p>
-              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/keystroke_dynamics_pipeline.py" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-emerald)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                View Mobile Algorithm Code <ExternalLink size={12} />
+              <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-3-keystroke-dynamics-cognitive--motor-engine-task_203" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-emerald)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                View Task Specification & Input Schema <ExternalLink size={12} />
               </a>
             </div>
           </div>
