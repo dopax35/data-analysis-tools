@@ -2,14 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: '/portal',
-  async redirects() {
+  async rewrites() {
     return [
       {
-        source: '/',
-        destination: '/portal/register',
-        basePath: false,
-        permanent: false,
+        source: '/portal/:path*',
+        destination: '/:path*',
       },
     ];
   },
