@@ -344,7 +344,7 @@ def deploy_to_vercel(project_id: str = None) -> dict:
             return {"status": "error", "response": res.text}
     else:
         _log_action("agent-maintenance", "deploy_to_vercel", "[DRY-RUN] Simulated Vercel production deployment")
-        return {"status": "simulated", "deployment_url": "https://dopa-x-portal.vercel.app", "deployment_id": "dpl_mock_987"}
+        return {"status": "simulated", "deployment_url": "https://data-analysis-tools-of1s.vercel.app", "deployment_id": "dpl_mock_987"}
 
 def log_to_google_sheets(event_type: str, details: str) -> dict:
     """Logs system events and deployment statuses to Google Sheets audit log."""
@@ -402,7 +402,7 @@ def register_volunteer_contributor(name: str, email: str, github_handle: str, sk
         "github_handle": github_handle,
         "skills": skills,
         "referral_code": generated_ref,
-        "referral_link": f"https://dopa-x.vercel.app/research?ref={generated_ref}"
+        "referral_link": f"https://data-analysis-tools-of1s.vercel.app/research?ref={generated_ref}"
     }
 
 def generate_referral_link(github_handle: str) -> dict:
@@ -412,7 +412,7 @@ def generate_referral_link(github_handle: str) -> dict:
     return {
         "github_handle": github_handle,
         "referral_code": ref_code,
-        "referral_url": f"https://dopa-x.vercel.app/research?ref={ref_code}",
+        "referral_url": f"https://data-analysis-tools-of1s.vercel.app/research?ref={ref_code}",
         "total_referrals": 3
     }
 
