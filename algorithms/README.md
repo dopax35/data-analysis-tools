@@ -3,7 +3,8 @@
 Welcome to the **dopa-X Algorithm Development Directory**!
 
 > [!IMPORTANT]
-> The algorithm feature extraction pipelines in this repository are **developed by community volunteer data scientists and software engineers**. The tasks below detail the clinical objectives, input schemas, required feature outputs, and PR submission guidelines.
+> The algorithm feature extraction pipelines in this repository are **developed by community volunteer data scientists and software engineers** and distributed under the **Apache License, Version 2.0**.
+> All data streams, sample datasets, and algorithm benchmark outputs MUST be fully anonymized in compliance with HIPAA Safe Harbor standards (45 CFR § 164.514(b)) and GDPR Recital 26. Never include un-redacted PHI or PII.
 
 ---
 
@@ -15,9 +16,9 @@ Welcome to the **dopa-X Algorithm Development Directory**!
 - **Input Schema**: `timestamp_ms`, `gaze_x_px`, `gaze_y_px`, `pupil_diameter_mm`, `blink_flag`
 - **Required Outputs**:
   1. `clean_eyetracking_signals(df)`: Filter out blink artifacts (`pupil_diameter_mm == 0.0`) and linear interpolation of short gaps.
-  2. `extract_gaze_stability(df)`: Calculate Gaze Standard Deviation X/Y and Bivariate Contour Ellipse Area (BCEA fixation area in pxÂ²).
+  2. `extract_gaze_stability(df)`: Calculate Gaze Standard Deviation X/Y and Bivariate Contour Ellipse Area (BCEA fixation area in px²).
   3. `extract_gaze_speed(df)`: Calculate angular gaze velocity in degrees per second (deg/sec).
-  4. `extract_gaze_jitter(df)`: High-frequency micro-saccadic noise power in the 20â€“50Hz band.
+  4. `extract_gaze_jitter(df)`: High-frequency micro-saccadic noise power in the 20–50Hz band.
   5. `extract_blinking_rate(df)`: Blinks per minute and average blink duration.
 
 ---
@@ -27,9 +28,9 @@ Welcome to the **dopa-X Algorithm Development Directory**!
 - **Raw Data Source**: Hosted on dopa-X Portal (`/data/mobile-sensors-sample.json`)
 - **Input Schema**: 100Hz `acc_x`, `acc_y`, `acc_z`, `gyro_x`, `gyro_y`, `gyro_z`
 - **Required Outputs**:
-  1. `preprocess_mobile_sensors(data)`: Apply 4th order Butterworth bandpass filter (0.5â€“15Hz).
+  1. `preprocess_mobile_sensors(data)`: Apply 4th order Butterworth bandpass filter (0.5–15Hz).
   2. `extract_gait_asymmetry(acc_magnitude)`: Calculate mean stride time (ms) and stride timing asymmetry index.
-  3. `extract_tremor_power(gyro_magnitude)`: Compute FFT spectral power in the 3â€“8 Hz Parkinsonian resting tremor band.
+  3. `extract_tremor_power(gyro_magnitude)`: Compute FFT spectral power in the 3–8 Hz Parkinsonian resting tremor band.
 
 ---
 
@@ -45,8 +46,10 @@ Welcome to the **dopa-X Algorithm Development Directory**!
 
 ## How to Contribute Your Algorithm Code
 
-1. **Pick a Task**: Select an unassigned task from the list above or the [Projects Task Board](https://data-analysis-tools-of1s.vercel.app/projects).
+1. **Pick a Task**: Select an unassigned task from the list above or the [Projects Task Board](https://www.dopa-x.org/portal/projects).
 2. **Branch**: Create a branch in your fork: `git checkout -b algorithm/your-github-username-task_201`
 3. **Develop**: Place your Python pipeline file under `algorithms/` (e.g. `algorithms/eyetracking_gaze_pipeline.py`).
-4. **Submit PR**: Open a Pull Request on GitHub ([`dopax35/data-analysis-tools`](https://github.com/dopax35/data-analysis-tools)).
-5. **Auto-Review**: The `agent-code-reviewer` sub-agent will run automated linting and code hygiene checks, post feedback, and merge approved PRs!
+4. **License & Anonymization Check**: Ensure all code is licensed under [Apache License 2.0](LICENSE) and contains zero Protected Health Information (PHI) or Personally Identifiable Information (PII).
+5. **Submit PR**: Open a Pull Request on GitHub ([`dopax35/data-analysis-tools`](https://github.com/dopax35/data-analysis-tools)).
+6. **Auto-Review**: The `agent-code-reviewer` sub-agent will run automated linting and code hygiene checks, post feedback, and merge approved PRs!
+

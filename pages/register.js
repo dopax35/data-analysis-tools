@@ -196,10 +196,10 @@ export default function Register() {
                   style={{ marginTop: '3px', width: '18px', height: '18px', accentColor: 'var(--accent-cyan)' }}
                 />
                 <div>
-                  I agree to the <strong>TBD Data Privacy Policy & Research Participant Consent Terms</strong>.
+                  I agree to the <strong>Apache 2.0 License Terms & Patient Privacy Anonymization Protocols</strong>.
                   <div style={{ marginTop: '4px' }}>
                     <Link href="/legal" target="_blank" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                      <FileText size={12} /> Read Full Legal Statements
+                      <FileText size={12} /> Read Full Legal & Privacy Statements
                     </Link>
                   </div>
                 </div>
