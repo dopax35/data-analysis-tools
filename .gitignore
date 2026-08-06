@@ -1,0 +1,7 @@
+node_modules/
+.next/
+__pycache__/
+*.log
+.DS_Store
+agents.md.old*
+data/*.json

@@ -113,19 +113,29 @@ export default function StandaloneResearchHub() {
   async function handleRegSubmit(e) {
     e.preventDefault();
     try {
-      const res = await fetch('/api/register', {
+      let res = await fetch('/portal/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(regForm)
       });
+      if (!res.ok && res.status === 404) {
+        res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(regForm)
+        });
+      }
       const data = await res.json();
       if (res.ok && data.user) {
         setRegisteredUser(data.user);
+      } else if (data.message) {
+        alert(data.message);
       }
     } catch (e) {
       console.error('Reg error:', e);
     }
   }
+
 
   async function handleTutSubmit(e) {
     e.preventDefault();
@@ -251,7 +261,7 @@ export default function StandaloneResearchHub() {
           <section style={{ background: 'rgba(18, 24, 38, 0.75)', padding: '32px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)', marginBottom: '40px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
               <div>
-                <h3 style={{ fontSize: '1.4rem', fontWeight: 700 }}>{activeProject.name} â€” Community Q&A & Results</h3>
+                <h3 style={{ fontSize: '1.4rem', fontWeight: 700 }}>{activeProject.name} — Community Q&A & Results</h3>
                 <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Discuss data issues, feature extraction formulas, and benchmark scores</span>
               </div>
 
@@ -333,7 +343,7 @@ export default function StandaloneResearchHub() {
       {isTutorialOpen && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div style={{ background: '#121826', padding: '32px', borderRadius: '16px', maxWidth: '500px', width: '100%', border: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
-            <button onClick={() => setIsTutorialOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.2rem' }}>âœ•</button>
+            <button onClick={() => setIsTutorialOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.2rem' }}>✕</button>
             
             {!tutSubmitted ? (
               <form onSubmit={handleTutSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

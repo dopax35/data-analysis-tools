@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  basePath: '/portal',
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/portal',
+        permanent: true,
+        basePath: false,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
@@ -13,3 +24,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+

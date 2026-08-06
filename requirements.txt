@@ -1,0 +1,3 @@
+google-antigravity
+requests
+google-api-python-client

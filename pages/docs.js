@@ -60,7 +60,7 @@ export default function Documentation() {
                 1. Eye-Tracking Gaze Dynamics Task (`task_201`)
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '10px' }}>
-                Develop a Python pipeline to compute BCEA gaze stability, angular speed (deg/sec), 20â€“50Hz micro-saccadic jitter, and blinking rate from raw eye-tracking CSV signals.
+                Develop a Python pipeline to compute BCEA gaze stability, angular speed (deg/sec), 20–50Hz micro-saccadic jitter, and blinking rate from raw eye-tracking CSV signals.
               </p>
               <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-1-eye-tracking-biomarker--gaze-dynamics-pipeline-task_201" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-cyan)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                 View Task Specification & Input Schema <ExternalLink size={12} />
@@ -72,7 +72,7 @@ export default function Documentation() {
                 2. Mobile App Motion Sensor Task (`task_202`)
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '10px' }}>
-                Develop 100Hz 3-axis accelerometer and gyroscope preprocessing algorithms using Butterworth filtering to extract stride timing asymmetry and 3â€“8Hz resting tremor power.
+                Develop 100Hz 3-axis accelerometer and gyroscope preprocessing algorithms using Butterworth filtering to extract stride timing asymmetry and 3–8Hz resting tremor power.
               </p>
               <a href="https://github.com/dopax35/data-analysis-tools/blob/main/algorithms/README.md#task-2-dopa-x-mobile-app-sensor-biomarkers-task_202" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-violet)', fontSize: '0.85rem', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                 View Task Specification & Input Schema <ExternalLink size={12} />

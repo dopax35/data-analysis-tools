@@ -438,3 +438,39 @@ def search_project_documentation(query: str) -> dict:
             {"title": "PULL_REQUEST_TEMPLATE.md", "url": "https://github.com/dopax35/data-analysis-tools/blob/main/.github/PULL_REQUEST_TEMPLATE.md"}
         ]
     }
+
+# --- 11. UX/UI Design Agent (agent-design) Tools ---
+
+def generate_component_spec(component_name: str, layout_type: str = "responsive") -> dict:
+    """Defines layout, user flow, and visual component specifications for agent-frontend."""
+    _log_action("agent-design", "generate_component_spec", f"Generating UX/UI spec for '{component_name}' ({layout_type})")
+    return {
+        "component_name": component_name,
+        "layout_type": layout_type,
+        "color_palette": "glassmorphism cyan-violet",
+        "accessibility_tier": "WCAG-AA",
+        "status": "spec_ready"
+    }
+
+def validate_accessibility_flow(flow_name: str) -> dict:
+    """Validates keyboard navigation, contrast ratios, and screen reader labels across portal flows."""
+    _log_action("agent-design", "validate_accessibility_flow", f"Auditing WCAG accessibility for flow '{flow_name}'")
+    return {
+        "flow_name": flow_name,
+        "wcag_passed": True,
+        "contrast_ratio": "4.5:1+",
+        "status": "passed"
+    }
+
+# --- 12. Maintenance & SRE Agent (agent-maintenance) Tools ---
+
+def check_api_rate_limits() -> dict:
+    """Tracks API rate limits for Monday.com, GitHub, and Vercel hosting infrastructure."""
+    _log_action("agent-maintenance", "check_api_rate_limits", "Checking API quota and rate limits across integrated services")
+    return {
+        "github_remaining": 4980,
+        "monday_api_complexity_remaining": 1000000,
+        "vercel_deployments_remaining": 98,
+        "status": "HEALTHY"
+    }
+

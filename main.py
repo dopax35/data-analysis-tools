@@ -145,6 +145,32 @@ AGENT_DEVOPS_CONFIG = LocalAgentConfig(
     )
 )
 
+AGENT_DESIGN_CONFIG = LocalAgentConfig(
+    name="agent-design",
+    system_instructions=(
+        "You are the UX/UI Lead. Define the layout, user flow, and accessibility standards for the community portal. "
+        "Generate structured component specifications and pass them to agent-frontend for implementation."
+    ),
+    capabilities=CapabilitiesConfig(
+        tools=[tools.generate_component_spec, tools.validate_accessibility_flow],
+        allow_write=True,
+        require_confirmation=False
+    )
+)
+
+AGENT_MAINTENANCE_CONFIG = LocalAgentConfig(
+    name="agent-maintenance",
+    system_instructions=(
+        "You are the Site Reliability Engineer. Track API rate limits for Monday.com and GitHub. Monitor Vercel "
+        "deployment health and log all major system events and health metrics to the Google Sheets audit backend."
+    ),
+    capabilities=CapabilitiesConfig(
+        tools=[tools.check_api_rate_limits, tools.log_to_google_sheets],
+        allow_write=True,
+        require_confirmation=False
+    )
+)
+
 AGENT_GUIDE_CONFIG = LocalAgentConfig(
     name="agent-guide",
     system_instructions=(
@@ -165,7 +191,7 @@ AGENT_PM_CONFIG = LocalAgentConfig(
     name="agent-pm",
     api_key=api_key,
     system_instructions=(
-        "You are the Lead Project Manager. Oversee active workflows across frontend, backend, devops, audit, ops, and community guides. "
+        "You are the Lead Project Manager. Oversee active workflows across frontend, backend, devops, audit, ops, design, maintenance, and community guides. "
         "Automatically trigger environment setups on Vercel, Monday.com, and GitHub. Route ongoing tasks to sub-agents."
     ),
     capabilities=CapabilitiesConfig(
@@ -178,10 +204,12 @@ AGENT_PM_CONFIG = LocalAgentConfig(
         "agent-crawler": AGENT_CRAWLER_CONFIG,
         "agent-scout": AGENT_SCOUT_CONFIG,
         "agent-ops": AGENT_OPS_CONFIG,
+        "agent-design": AGENT_DESIGN_CONFIG,
         "agent-code-reviewer": AGENT_CODE_REVIEWER_CONFIG,
         "agent-frontend": AGENT_FRONTEND_CONFIG,
         "agent-backend": AGENT_BACKEND_CONFIG,
         "agent-devops": AGENT_DEVOPS_CONFIG,
+        "agent-maintenance": AGENT_MAINTENANCE_CONFIG,
         "agent-guide": AGENT_GUIDE_CONFIG,
     }
 )
@@ -193,7 +221,7 @@ async def run_bootstrap_sequence():
     Calls bootstrap_github_repo, bootstrap_monday_workspace, setup_vercel_project, and build_api_endpoint.
     """
     print("\n=======================================================")
-    print("  dopa-X PLATFORM - 10-AGENT AUTONOMOUS BOOTSTRAP")
+    print("  dopa-X PLATFORM - 12-AGENT AUTONOMOUS BOOTSTRAP")
     print("=======================================================\n")
     
     # 1. Initialize GitHub Repository via agent-code-reviewer
@@ -224,7 +252,7 @@ async def run_bootstrap_sequence():
     print(f"    Result: {vercel_deploy_result}\n")
 
     # Log bootstrap status to Google Sheets backend
-    tools.log_to_google_sheets("BOOTSTRAP_COMPLETE", "Initial 10-agent platform self-provisioning completed successfully.")
+    tools.log_to_google_sheets("BOOTSTRAP_COMPLETE", "Initial 12-agent platform self-provisioning completed successfully.")
 
     print("=======================================================")
     print("  BOOTSTRAP SEQUENCE COMPLETE - PLATFORM IS LIVE!")
@@ -233,10 +261,10 @@ async def run_bootstrap_sequence():
 
 async def run_automated_trigger_loop(iterations: int = 1):
     """
-    Automated 10-Agent Orchestration Loop: Executes recurring operational workflows across all sub-agents
-    under agent-pm, agent-frontend, agent-backend, agent-devops, and agent-auditor supervision.
+    Automated 12-Agent Orchestration Loop: Executes recurring operational workflows across all sub-agents
+    under agent-pm supervision.
     """
-    print("--> Starting 10-Agent Autonomous Orchestration Loop...")
+    print("--> Starting 12-Agent Autonomous Orchestration Loop...")
     
     async def _execute_loop():
         for i in range(1, iterations + 1):
@@ -267,25 +295,34 @@ async def run_automated_trigger_loop(iterations: int = 1):
                 epic = tools.create_monday_epic(f"Integrate {meta.get('title')}", "Oculomotor & gait time series integration")
                 tools.create_monday_subtask(epic.get("epic_id"), "Feature extraction & validation pipeline")
 
-            # 6. Backend Verifies Persistent Database Schema
+            # 6. Design Defines UI Layout Spec & Accessibility Tier
+            dspec = tools.generate_component_spec("DataSourcesGrid", "All clinical data sources grid")
+            a11y = tools.validate_accessibility_flow("Volunteer Registration Flow")
+            print(f"[agent-design] Generated UI Spec for '{dspec.get('component_name')}' | WCAG Status: {a11y.get('status')}")
+
+            # 7. Backend Verifies Persistent Database Schema
             db_sync = tools.sync_database_schema("discussions_db", {"taskId": "string", "author": "string", "content": "string"})
             print(f"[agent-backend] Database Schema Sync: {db_sync.get('status')} for '{db_sync.get('table')}'")
 
-            # 7. Frontend Generates React Component & Submits PR
+            # 8. Frontend Generates React Component & Submits PR
             comp = tools.generate_react_component("DataSourcesGrid", "All clinical data sources grid")
             pr_res = tools.submit_frontend_pr("feature/data-sources-grid", comp["component_name"])
             print(f"[agent-frontend] Submitted PR #{pr_res.get('pr_number')} for {comp['component_name']}")
 
-            # 8. Code Reviewer Reviews & Merges PR
+            # 9. Code Reviewer Reviews & Merges PR
             diff = tools.get_github_pr_diff(pr_res.get("pr_number"))
             print(f"[agent-code-reviewer] PR #{pr_res.get('pr_number')} Review: Lint={diff.get('lint_passed')}, A11y={diff.get('accessibility_passed')}")
             tools.post_github_pr_comment_and_merge(pr_res.get("pr_number"), "Automated code hygiene & accessibility checks passed.", approve=True)
 
-            # 9. DevOps Triggers Production Deployment Check
+            # 10. DevOps Triggers Production Deployment Check
             deploy_res = tools.deploy_to_vercel()
             print(f"[agent-devops] Production Deployment Verified: {deploy_res.get('deployment_url')}")
 
-            # 10. Guide Matches Volunteer Skills
+            # 11. Maintenance Checks API Rate Limits
+            maint = tools.check_api_rate_limits()
+            print(f"[agent-maintenance] SRE Health Check: {maint.get('status')} (GitHub remaining: {maint.get('github_remaining')})")
+
+            # 12. Guide Matches Volunteer Skills
             unassigned = tools.query_unassigned_monday_tasks()
             print(f"[agent-guide] Unassigned tasks ready for volunteer matching: {len(unassigned.get('unassigned_tasks', []))}")
 
@@ -293,8 +330,9 @@ async def run_automated_trigger_loop(iterations: int = 1):
         async with Agent(AGENT_PM_CONFIG) as pm_agent:
             await _execute_loop()
     except Exception as e:
-        print(f"\n[AGENT-PM] Agent SDK session notice ({e}). Running autonomous 10-agent orchestration directly...")
+        print(f"\n[AGENT-PM] Agent SDK session notice ({e}). Running autonomous 12-agent orchestration directly...")
         await _execute_loop()
+
 
 
 async def main():

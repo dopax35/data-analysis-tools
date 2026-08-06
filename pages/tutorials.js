@@ -73,7 +73,7 @@ export default function Tutorials() {
               <div key={session.id} className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <span className="badge badge-emerald" style={{ marginBottom: '10px' }}>
-                    <Calendar size={12} /> {session.date} â€¢ {session.time}
+                    <Calendar size={12} /> {session.date} • {session.time}
                   </span>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '10px' }}>{session.topic}</h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '16px' }}>

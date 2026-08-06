@@ -39,11 +39,20 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const res = await fetch('/api/register', {
+      let res = await fetch('/portal/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
+
+      if (!res.ok && res.status === 404) {
+        res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+      }
+
       const data = await res.json();
       if (res.ok && data.user) {
         // Save session in localStorage
@@ -51,12 +60,13 @@ export default function Register() {
           localStorage.setItem('dopax_user', JSON.stringify(data.user));
         }
 
-        const refUrl = `https://www.dopa-x.org/portal/register?ref=${data.user.refCode}`;
+        const refUrl = data.user.refUrl || `https://www.dopa-x.org/portal/register?ref=${data.user.refCode}`;
         setRegisteredUser({
           name: data.user.name,
           github: data.user.github,
           refCode: data.user.refCode,
-          refUrl: refUrl
+          refUrl: refUrl,
+          isNew: data.isNew !== false
         });
       } else {
         alert(data.message || "Registration failed. Please try again.");
@@ -133,8 +143,7 @@ export default function Register() {
               </label>
               <input 
                 type="text" 
-                required 
-                placeholder="arivera-bio"
+                placeholder="arivera-bio (optional)"
                 value={formData.github}
                 onChange={(e) => setFormData({ ...formData, github: e.target.value })}
                 style={{ width: '100%', padding: '12px 16px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-card)', borderRadius: '8px', color: 'white', fontSize: '1rem' }}
@@ -209,9 +218,13 @@ export default function Register() {
         ) : (
           <div className="glass-panel" style={{ padding: '40px', textAlign: 'center' }}>
             <CheckCircle size={56} style={{ color: 'var(--accent-emerald)', marginBottom: '16px' }} />
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Welcome, {registeredUser.name}!</h2>
+            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>
+              {registeredUser.isNew ? `Welcome, ${registeredUser.name}!` : `Welcome Back, ${registeredUser.name}!`}
+            </h2>
             <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-              Your profile is registered with dopa-X Community. You are ready to claim algorithm tasks!
+              {registeredUser.isNew 
+                ? 'Your profile is registered with dopa-X Community. You are ready to claim algorithm tasks!' 
+                : 'Your existing volunteer profile and referral link have been retrieved.'}
             </p>
 
             <div style={{ background: 'rgba(0,0,0,0.4)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-card)', marginBottom: '24px' }}>
@@ -231,12 +244,13 @@ export default function Register() {
               </div>
             </div>
 
-            <a href="/projects" className="btn-primary" style={{ textDecoration: 'none', padding: '12px 24px' }}>
+            <Link href="/projects" className="btn-primary" style={{ textDecoration: 'none', padding: '12px 24px', display: 'inline-flex' }}>
               Enter dopa-X Projects Board & Claim Tasks
-            </a>
+            </Link>
           </div>
         )}
       </main>
     </>
   );
+
 }

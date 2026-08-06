@@ -25,30 +25,47 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { name, email, github, skills, refCode } = req.body;
+      const { name, email, github, skills, refCode } = req.body || {};
+
+      if (!name || !email) {
+        return res.status(400).json({ status: 'error', message: 'Name and email address are required.' });
+      }
+
+      const cleanName = name.trim();
+      const cleanEmail = email.trim().toLowerCase();
       const cleanHandle = (github || '').replace('@', '').trim();
-      const userRefCode = `dopax-ref-${cleanHandle.toLowerCase()}-${Math.random().toString(36).substring(2, 6)}`;
+      const refSuffix = Math.random().toString(36).substring(2, 6);
+      const userHandlePart = cleanHandle ? cleanHandle.toLowerCase() : cleanName.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const userRefCode = `dopax-ref-${userHandlePart}-${refSuffix}`;
 
       const dbRaw = fs.readFileSync(dbPath, 'utf8');
       const db = JSON.parse(dbRaw);
 
-      // Check if user already exists
-      const existingUser = db.users.find(u => u.github.toLowerCase() === cleanHandle.toLowerCase() || u.email.toLowerCase() === email.toLowerCase());
+      // Check if user already exists by email or github handle
+      const existingUser = db.users.find(u => 
+        (cleanEmail && u.email.toLowerCase() === cleanEmail) ||
+        (cleanHandle && u.github && u.github.toLowerCase() === cleanHandle.toLowerCase())
+      );
 
       if (existingUser) {
-        return res.status(200).json({ status: 'existing', user: existingUser });
+        const userWithUrl = {
+          ...existingUser,
+          refUrl: `https://www.dopa-x.org/portal/register?ref=${existingUser.refCode}`
+        };
+        return res.status(200).json({ status: 'existing', isNew: false, user: userWithUrl });
       }
 
       const newUser = {
-        name,
-        email,
+        name: cleanName,
+        email: cleanEmail,
         github: cleanHandle,
         skills: skills || [],
         refCode: userRefCode,
         referredBy: refCode || null,
         referralsCount: 0,
         badge: 'Biomarker Scout',
-        registeredAt: new Date().toISOString()
+        registeredAt: new Date().toISOString(),
+        refUrl: `https://www.dopa-x.org/portal/register?ref=${userRefCode}`
       };
 
       db.users.push(newUser);
@@ -63,7 +80,7 @@ export default async function handler(req, res) {
 
       fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 
-      return res.status(201).json({ status: 'success', user: newUser });
+      return res.status(201).json({ status: 'success', isNew: true, user: newUser });
     } catch (err) {
       return res.status(500).json({ status: 'error', message: err.message });
     }
@@ -82,3 +99,4 @@ export default async function handler(req, res) {
   res.setHeader('Allow', ['GET', 'POST']);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
