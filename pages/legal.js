@@ -100,14 +100,65 @@ export default function Legal() {
           </div>
         </section>
 
-        {/* 4. Apache 2.0 Open Source Licensing & Intellectual Property */}
-        <section className="glass-panel" style={{ padding: '28px', marginBottom: '28px', border: '1px solid rgba(139,92,246,0.3)' }}>
+        {/* 4. Copyright & Patent Assignment Agreement (CAA) & Commercial IP Provisions */}
+        <section className="glass-panel" style={{ padding: '28px', marginBottom: '28px', border: '1px solid rgba(139,92,246,0.4)', background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(6,182,212,0.08))' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent-violet)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Code size={22} /> 4. Apache License, Version 2.0 Distribution & IP Compliance
+            <Scale size={22} /> 4. Copyright & Patent Assignment Agreement (CAA) & Commercial IP Provisions
+          </h2>
+          <div style={{ color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            
+            {/* Mission Lock Preamble */}
+            <div style={{ background: 'rgba(139,92,246,0.12)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(139,92,246,0.3)' }}>
+              <h3 style={{ color: 'white', fontSize: '1rem', fontWeight: 700, marginBottom: '6px' }}>
+                Mission Lock Preamble & Purpose of Commercialization
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+                dopa-X operates as an open-access research nonprofit organization. We explicitly guarantee that commercial spin-outs and for-profit subsidiary entities will only be deployed when strictly necessary to achieve clinical scale. This is limited to initiatives requiring massive capital, specifically: funding multi-million dollar FDA regulatory device clearances, manufacturing physical medical hardware at scale, and securing specialized federal research or commercialization grants that non-profit research entities cannot access directly.
+              </p>
+            </div>
+
+            {/* CAA & Assignment Terms */}
+            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '20px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <strong style={{ color: 'white' }}>1. Copyright and Patent Assignment Agreement (CAA):</strong>
+                <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
+                  By participating as a volunteer contributor, you hereby irrevocably assign, transfer, and convey to dopa-X, its successors, and assigns, all worldwide right, title, and interest in and to all copyrights, patents, patent applications, patentable inventions (including novel digital biomarker algorithms, neural network models, and multimodal sensor integrations), trade secrets, and other intellectual property rights created, authored, or reduced to practice during your volunteer contributions. dopa-X shall be the sole and exclusive owner of such intellectual property, possessing the absolute authority to exclusively license, assign, or monetize the intellectual property to future for-profit subsidiaries or spin-outs without requiring further consent, notice, or compensation to past volunteers.
+                </p>
+              </div>
+
+              <div>
+                <strong style={{ color: 'white' }}>2. Explicit Commercial & Sublicensing Rights:</strong>
+                <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Contributors explicitly grant to dopa-X the unencumbered, irrevocable, worldwide, royalty-free right to commercialize, sublicense (through multiple tiers), assign, sell, or transfer any contributed intellectual property to third parties. This expressly includes affiliated or newly formed for-profit entities, subsidiaries, corporate spin-outs, and commercial licensing partners. Volunteer contributions are expressly not limited to non-commercial, academic, or research use, but may be utilized for full-scale commercialization.
+                </p>
+              </div>
+
+              <div>
+                <strong style={{ color: 'white' }}>3. Broad Scope of "Inventions":</strong>
+                <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
+                  The scope of this assignment comprehensively covers all software code, digital biomarker algorithms, neural network weights, data structures, hardware designs, schematics (including IMU accelerometers, gyroscopes, optical/gaze sensors, and acoustic microphones), firmware, data processing pipelines, clinical protocols, and technical methodologies conceived, developed, or derived using dopa-X datasets, equipment, platform infrastructure, or volunteer project directives.
+                </p>
+              </div>
+
+              <div>
+                <strong style={{ color: 'white' }}>4. The Quid Pro Quo (Volunteer Protections & Guarantees):</strong>
+                <ul style={{ paddingLeft: '20px', marginTop: '6px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <li><strong style={{ color: 'var(--accent-cyan)' }}>The Open Source Guarantee:</strong> To ensure reciprocal benefit, the core platform infrastructure, baseline algorithm repositories, and foundational dataset schemas will permanently remain open-source and publicly accessible under the Apache License, Version 2.0 (and CC-BY 4.0 for data), irrespective of whether specialized clinical applications, proprietary pipelines, or hardware devices are subsequently commercialized by affiliated spin-outs.</li>
+                  <li><strong style={{ color: 'var(--accent-emerald)' }}>Side Project Carve-Out (Scope Delineation):</strong> This intellectual property assignment applies STRICTLY and ONLY to contributions intentionally submitted or pushed to dopa-X repositories, developed directly on dopa-X platforms, or created materially utilizing dopa-X datasets and resources. Any personal side projects, independent startups, or intellectual property developed on your own time without dopa-X resources, or subject to prior external employer IP agreements, are explicitly carved out and excluded from this assignment.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Apache 2.0 Open Source Licensing & Intellectual Property */}
+        <section className="glass-panel" style={{ padding: '28px', marginBottom: '28px', border: '1px solid rgba(6,182,212,0.3)' }}>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Code size={22} /> 5. Apache License, Version 2.0 Open Source Distribution
           </h2>
           <div style={{ color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <p>
-              All data, source code, component visualizers, algorithms, and documentation published on <code>https://github.com/dopax35/data-analysis-tools</code> and <strong style={{ color: 'white' }}>https://www.dopa-x.org/portal</strong> are distributed under the terms of the <strong style={{ color: 'var(--accent-cyan)' }}>Apache License, Version 2.0</strong>.
+              All foundational data, source code, component visualizers, algorithms, and documentation published on <code>https://github.com/dopax35/data-analysis-tools</code> and <strong style={{ color: 'white' }}>https://www.dopa-x.org/portal</strong> are distributed under the terms of the <strong style={{ color: 'var(--accent-cyan)' }}>Apache License, Version 2.0</strong>.
             </p>
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '18px', borderRadius: '10px', fontSize: '0.88rem', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.06)' }}>
               <h3 style={{ color: 'white', fontSize: '1rem', fontWeight: 700, marginBottom: '8px' }}>Apache License 2.0 Summary & Compliance Provisions:</h3>
@@ -122,10 +173,10 @@ export default function Legal() {
           </div>
         </section>
 
-        {/* 5. Medical & Diagnostic Disclaimer */}
+        {/* 6. Medical & Diagnostic Disclaimer */}
         <section className="glass-panel" style={{ padding: '28px', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#f59e0b', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertTriangle size={22} /> 5. Medical & Diagnostic Disclaimer
+            <AlertTriangle size={22} /> 6. Medical & Diagnostic Disclaimer
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>
             The algorithms, biomarker extraction pipelines, and signal visualizers developed on the dopa-X platform are intended <strong>exclusively for scientific research and educational evaluation</strong>. They do not constitute formal medical diagnosis, clinical treatment advice, or FDA-cleared medical devices. Clinical decisions regarding Parkinson's or neurodegenerative care should always be made with qualified healthcare professionals.

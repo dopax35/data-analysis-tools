@@ -4,6 +4,7 @@ Welcome to the **dopa-X Algorithm Development Directory**!
 
 > [!IMPORTANT]
 > The algorithm feature extraction pipelines in this repository are **developed by community volunteer data scientists and software engineers** and distributed under the **Apache License, Version 2.0**.
+> By contributing, you explicitly agree to the **Copyright & Patent Assignment Agreement (CAA)**, assigning IP rights to dopa-X for potential commercialization and FDA clearance, while retaining Open Source Guarantees.
 > All data streams, sample datasets, and algorithm benchmark outputs MUST be fully anonymized in compliance with HIPAA Safe Harbor standards (45 CFR § 164.514(b)) and GDPR Recital 26. Never include un-redacted PHI or PII.
 
 ---

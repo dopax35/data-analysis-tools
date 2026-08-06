@@ -33,7 +33,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.agreedToTerms) {
-      alert("Please accept the Data Privacy & Research Participant Consent Agreement before completing registration.");
+      alert("Please accept the Copyright & Patent Assignment Agreement (CAA), Data Privacy, & Research Participant Consent Agreement before completing registration.");
       return;
     }
 
@@ -196,10 +196,10 @@ export default function Register() {
                   style={{ marginTop: '3px', width: '18px', height: '18px', accentColor: 'var(--accent-cyan)' }}
                 />
                 <div>
-                  I agree to the <strong>Apache 2.0 License Terms & Patient Privacy Anonymization Protocols</strong>.
+                  I agree to the <strong>Copyright & Patent Assignment Agreement (CAA), Commercial Sublicensing Terms, Apache 2.0 License, & Patient Privacy Anonymization Protocols</strong>.
                   <div style={{ marginTop: '4px' }}>
                     <Link href="/legal" target="_blank" style={{ color: 'var(--accent-cyan)', textDecoration: 'underline', fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                      <FileText size={12} /> Read Full Legal & Privacy Statements
+                      <FileText size={12} /> Read Full CAA & Legal Governance Terms
                     </Link>
                   </div>
                 </div>

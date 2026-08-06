@@ -1,3 +1,18 @@
+DOPA-X CONTRIBUTOR COPYRIGHT & PATENT ASSIGNMENT AGREEMENT (CAA)
+================================================================
+
+By contributing to the dopa-X repository, you explicitly agree to the following terms, in addition to the standard Apache 2.0 License below:
+
+1. Copyright and Patent Assignment: You irrevocably assign, transfer, and convey to dopa-X all worldwide right, title, and interest in and to all copyrights, patents, patentable discoveries (such as algorithms, models, and sensor integrations), trade secrets, and intellectual property created during volunteer contributions.
+2. Explicit Commercial & Sublicensing Rights: You explicitly grant dopa-X the irrevocable right to commercialize, sublicense, assign, sell, or transfer any IP to third parties, including for-profit spin-outs for FDA clearance and device manufacturing.
+3. Broad Scope of Inventions: This covers code, algorithms, data structures, hardware designs (IMU sensors, microphones), schematics, methodologies, and platforms using dopa-X resources.
+4. Quid Pro Quo & Volunteer Protection: 
+   - Open Source Guarantee: Core platform infrastructure and baseline algorithms will remain open-source under Apache 2.0.
+   - Mission Lock Preamble: Spin-outs are exclusively for clinical scaling (FDA clearance, manufacturing, grants).
+   - Side Project Carve-Out: Excludes personal side projects or code not utilizing dopa-X repositories/resources.
+
+----------------------------------------------------------------
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
