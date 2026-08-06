@@ -1,28 +1,49 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 
-const dbPath = path.join(process.cwd(), 'data', 'community_db.json');
+const tmpDbPath = path.join(os.tmpdir(), 'dopax_community_db.json');
+const cwdDbPath = path.join(process.cwd(), 'data', 'community_db.json');
 
-function ensureDb() {
-  const dir = path.dirname(dbPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+const initialData = {
+  users: [
+    { name: 'Dr. Elena Rostova', email: 'erostova@lab.org', github: 'erostova-lab', skills: ['Python', 'Signal Processing'], refCode: 'dopax-ref-erostova-lab-8821', referralsCount: 14, badge: 'Pioneer Scout' },
+    { name: 'Marcus Chen', email: 'mchen@ml.org', github: 'mchen-ml', skills: ['Machine Learning', 'PyTorch'], refCode: 'dopax-ref-mchen-ml-1029', referralsCount: 9, badge: 'Signal Master' }
+  ],
+  referrals: []
+};
+
+function readDb() {
+  try {
+    if (fs.existsSync(tmpDbPath)) {
+      return JSON.parse(fs.readFileSync(tmpDbPath, 'utf8'));
+    }
+    if (fs.existsSync(cwdDbPath)) {
+      const data = JSON.parse(fs.readFileSync(cwdDbPath, 'utf8'));
+      try { fs.writeFileSync(tmpDbPath, JSON.stringify(data, null, 2)); } catch (_) {}
+      return data;
+    }
+  } catch (e) {
+    console.error('Error reading registration db:', e);
   }
-  if (!fs.existsSync(dbPath)) {
-    const initialData = {
-      users: [
-        { name: 'Dr. Elena Rostova', email: 'erostova@lab.org', github: 'erostova-lab', skills: ['Python', 'Signal Processing'], refCode: 'dopax-ref-erostova-lab-8821', referralsCount: 14, badge: 'Pioneer Scout' },
-        { name: 'Marcus Chen', email: 'mchen@ml.org', github: 'mchen-ml', skills: ['Machine Learning', 'PyTorch'], refCode: 'dopax-ref-mchen-ml-1029', referralsCount: 9, badge: 'Signal Master' }
-      ],
-      referrals: []
-    };
-    fs.writeFileSync(dbPath, JSON.stringify(initialData, null, 2));
+  return initialData;
+}
+
+function writeDb(data) {
+  try {
+    fs.writeFileSync(tmpDbPath, JSON.stringify(data, null, 2));
+  } catch (e) {
+    try {
+      const dir = path.dirname(cwdDbPath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(cwdDbPath, JSON.stringify(data, null, 2));
+    } catch (e2) {
+      console.error('Write DB error:', e2);
+    }
   }
 }
 
 export default async function handler(req, res) {
-  ensureDb();
-
   if (req.method === 'POST') {
     try {
       const { name, email, github, skills, refCode } = req.body || {};
@@ -38,8 +59,7 @@ export default async function handler(req, res) {
       const userHandlePart = cleanHandle ? cleanHandle.toLowerCase() : cleanName.toLowerCase().replace(/[^a-z0-9]/g, '');
       const userRefCode = `dopax-ref-${userHandlePart}-${refSuffix}`;
 
-      const dbRaw = fs.readFileSync(dbPath, 'utf8');
-      const db = JSON.parse(dbRaw);
+      const db = readDb();
 
       // Check if user already exists by email or github handle
       const existingUser = db.users.find(u => 
@@ -78,7 +98,7 @@ export default async function handler(req, res) {
         }
       }
 
-      fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+      writeDb(db);
 
       return res.status(201).json({ status: 'success', isNew: true, user: newUser });
     } catch (err) {
@@ -88,8 +108,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const dbRaw = fs.readFileSync(dbPath, 'utf8');
-      const db = JSON.parse(dbRaw);
+      const db = readDb();
       return res.status(200).json({ users: db.users });
     } catch (err) {
       return res.status(500).json({ status: 'error', message: err.message });
@@ -99,4 +118,5 @@ export default async function handler(req, res) {
   res.setHeader('Allow', ['GET', 'POST']);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
+
 
